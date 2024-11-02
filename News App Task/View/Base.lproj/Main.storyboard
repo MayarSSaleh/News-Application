@@ -6,13 +6,14 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Articles View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="News_App_Task" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ArticlesViewController" customModule="News_App_Task" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,17 +39,62 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="TFK-Rt-Fdu"/>
                                 </connections>
                             </searchBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="roS-BN-K2s">
+                                <rect key="frame" x="16" y="214" width="53" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="zrn-jQ-H0i">
+                                <rect key="frame" x="182.66666666666663" y="211.33333333333334" width="194.33333333333337" height="34.333333333333343"/>
+                                <color key="tintColor" red="0.0" green="0.37690211309999999" blue="0.79248109799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="zrn-jQ-H0i" secondAttribute="height" multiplier="198:35" id="nR7-Xv-YWx"/>
+                                </constraints>
+                            </datePicker>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="arq-EC-Cwr">
+                                <rect key="frame" x="16" y="264" width="361" height="504"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ypw-S7-CDf">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ArticleCell" id="JKH-k3-PiQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="r9z-qi-MVJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="IBd-Pt-tt7"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Q38-Kg-u0P"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="arq-EC-Cwr" firstAttribute="leading" secondItem="roS-BN-K2s" secondAttribute="leading" id="ChN-W7-QXy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="a5a-B8-0K7" secondAttribute="trailing" constant="25" id="EM8-CP-Jr9"/>
                             <constraint firstItem="eEX-CC-hv8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="IaO-XD-zin"/>
                             <constraint firstItem="a5a-B8-0K7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="Il0-NG-XL2"/>
+                            <constraint firstItem="roS-BN-K2s" firstAttribute="top" secondItem="NRn-x1-UG9" secondAttribute="bottom" constant="50" id="S9f-yn-vSd"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NRn-x1-UG9" secondAttribute="trailing" constant="16" id="SGv-kn-EJC"/>
                             <constraint firstItem="eEX-CC-hv8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="Whn-aI-Kej"/>
                             <constraint firstItem="NRn-x1-UG9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ZSj-zT-BaH"/>
+                            <constraint firstItem="arq-EC-Cwr" firstAttribute="trailing" secondItem="zrn-jQ-H0i" secondAttribute="trailing" id="gn1-fc-pIj"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="arq-EC-Cwr" secondAttribute="bottom" constant="50" id="mCO-LW-zA0"/>
+                            <constraint firstItem="arq-EC-Cwr" firstAttribute="top" secondItem="zrn-jQ-H0i" secondAttribute="bottom" constant="18.333333333333314" id="o98-Mq-b2f"/>
+                            <constraint firstItem="zrn-jQ-H0i" firstAttribute="centerY" secondItem="roS-BN-K2s" secondAttribute="centerY" id="oce-hu-wgt"/>
                             <constraint firstItem="NRn-x1-UG9" firstAttribute="top" secondItem="eEX-CC-hv8" secondAttribute="bottom" id="rNy-5Q-cnW"/>
+                            <constraint firstItem="roS-BN-K2s" firstAttribute="leading" secondItem="NRn-x1-UG9" secondAttribute="leading" id="uRn-RX-tJE"/>
+                            <constraint firstItem="zrn-jQ-H0i" firstAttribute="trailing" secondItem="NRn-x1-UG9" secondAttribute="trailing" id="zHp-De-JXC"/>
                         </constraints>
                     </view>
                 </viewController>
