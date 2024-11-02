@@ -11,7 +11,7 @@ class Article: Decodable {
     var author: String?
     var title: String
     var description: String?
-    var url: String
+    var url: String?
     var urlToImage: String?
     var publishedAt: String
     var content: String?
@@ -24,6 +24,17 @@ class Article: Decodable {
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
         self.content = content
+    }
+    convenience init(from entity: ArticleEntity) {
+        self.init(
+            author: entity.author,
+            title: entity.title ?? "no title",
+            description: entity.description,
+            url: "",
+            urlToImage: entity.imageURL,
+            publishedAt: "",
+            content: ""
+        )
     }
 }
 

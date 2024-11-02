@@ -28,7 +28,7 @@ class ArticlesViewModel: ObservableObject {
         isLoading = true
         // Construct the URL based on the type of fetch
         let urlString: String
-            urlString = "https://newsapi.org/v2/everything?q=\(resultAbout ?? "apple")&from=\(date ?? "2024-11-01")&sortBy=popularity&apiKey=20c2eab9e362409fa8c33473d8b7c86e"
+            urlString = "https://newsapi.org/v2/everything?q=\(resultAbout ?? "apple")&from=\(date ?? "2024-11-01")&sortBy=popularity&apiKey=0a3cd94367624ce4a68df2a2017e98a8"
         
             print(" urlString searchQuery \(urlString)")
         

@@ -32,7 +32,7 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
     
     func configure(article:Article){
       
-        image.contentMode = .scaleAspectFit
+//        image.contentMode = .scaleAspectFit
         let url = URL(string: article.urlToImage ?? "")
         image.kf.setImage(
             with: url,

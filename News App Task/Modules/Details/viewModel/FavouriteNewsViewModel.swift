@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreData
 
 class FavouriteNewsViewModel{
     
@@ -20,20 +19,4 @@ class FavouriteNewsViewModel{
     
 }
 
-/**
- private func removeFromFavorites(title: String) {
-     // Implement the logic to remove the article from favorites
-     let removeStatus = FavouriteNewsViewModel.removeFromFav(title: title)
-     
-     if removeStatus {
-         print("Successfully removed from favorites.")
-         // Optionally, show a message or update the UI
-     } else {
-         print("Failed to remove from favorites.")
-         // Optionally, show an error message
-     }
- }
 
- 
- 
- */

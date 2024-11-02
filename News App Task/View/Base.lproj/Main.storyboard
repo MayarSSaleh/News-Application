@@ -246,7 +246,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TtG-2T-F6f">
-                                <rect key="frame" x="45" y="583" width="41.333333333333343" height="20.333333333333371"/>
+                                <rect key="frame" x="45" y="583" width="303" height="20.333333333333371"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -284,6 +284,7 @@
                             <constraint firstItem="Kcq-9x-3YF" firstAttribute="trailing" secondItem="HEP-w2-rxR" secondAttribute="trailing" constant="45" id="FgG-cz-vBt"/>
                             <constraint firstItem="Kcq-9x-3YF" firstAttribute="trailing" secondItem="ZT3-1P-ESy" secondAttribute="trailing" constant="30" id="Gp0-zo-MNC"/>
                             <constraint firstItem="Gwn-Wm-n2E" firstAttribute="leading" secondItem="Kcq-9x-3YF" secondAttribute="leading" constant="25" id="PYU-RS-F75"/>
+                            <constraint firstItem="TtG-2T-F6f" firstAttribute="trailing" secondItem="HEP-w2-rxR" secondAttribute="trailing" id="QZL-MG-xEf"/>
                             <constraint firstItem="Kcq-9x-3YF" firstAttribute="bottom" secondItem="ZT3-1P-ESy" secondAttribute="bottom" constant="25" id="RjI-y2-P2S"/>
                             <constraint firstItem="HEP-w2-rxR" firstAttribute="leading" secondItem="Kcq-9x-3YF" secondAttribute="leading" constant="45" id="cFD-EZ-RQ5"/>
                             <constraint firstItem="Z2i-eM-cAY" firstAttribute="top" secondItem="TtG-2T-F6f" secondAttribute="bottom" constant="15.666666666666629" id="ekr-Oz-JTC"/>
@@ -305,23 +306,72 @@
             </objects>
             <point key="canvasLocation" x="721" y="-27"/>
         </scene>
+        <!--Favorites View Controller-->
+        <scene sceneID="6b9-RV-w9K">
+            <objects>
+                <viewController storyboardIdentifier="FavoritesViewController" id="eM8-7V-VF4" customClass="FavoritesViewController" customModule="News_App_Task" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m8Y-0c-Q0x">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jjo-tE-nLZ">
+                                <rect key="frame" x="25" y="75" width="179" height="51"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="42"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ORS-EF-bFa">
+                                <rect key="frame" x="16" y="142" width="361" height="660"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XkN-4c-NNK">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="eM8-7V-VF4" id="nQA-yf-5J6"/>
+                                    <outlet property="delegate" destination="eM8-7V-VF4" id="Dsa-zg-Mt6"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="kIS-eT-kkj"/>
+                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <constraints>
+                            <constraint firstItem="kIS-eT-kkj" firstAttribute="bottom" secondItem="ORS-EF-bFa" secondAttribute="bottom" constant="16" id="8Rj-ub-ntF"/>
+                            <constraint firstItem="ORS-EF-bFa" firstAttribute="top" secondItem="Jjo-tE-nLZ" secondAttribute="bottom" constant="16" id="VFw-1U-VVQ"/>
+                            <constraint firstItem="ORS-EF-bFa" firstAttribute="leading" secondItem="kIS-eT-kkj" secondAttribute="leading" constant="16" id="VXP-lk-vM9"/>
+                            <constraint firstItem="kIS-eT-kkj" firstAttribute="trailing" secondItem="ORS-EF-bFa" secondAttribute="trailing" constant="16" id="dUv-3u-f5h"/>
+                            <constraint firstItem="Jjo-tE-nLZ" firstAttribute="leading" secondItem="kIS-eT-kkj" secondAttribute="leading" constant="25" id="dpq-q1-cgS"/>
+                            <constraint firstItem="Jjo-tE-nLZ" firstAttribute="top" secondItem="kIS-eT-kkj" secondAttribute="top" constant="16" id="zn7-hb-efH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="ORS-EF-bFa" id="Trj-Az-ulY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5ok-RE-JXz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1519.8473282442746" y="-27.464788732394368"/>
+        </scene>
     </scenes>
     <resources>
         <image name="heart.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

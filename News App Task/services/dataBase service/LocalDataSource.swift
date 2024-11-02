@@ -10,9 +10,41 @@ import CoreData
 
 class LocalDataSource{
     
+
+    static func fetchAllFavorites() -> [Article] {
+        let context = UtilityObject.managedContext
+        let fetchRequest: NSFetchRequest<ArticleEntity> = ArticleEntity.fetchRequest()
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            let articles = results.map { Article(from: $0) }
+            
+            print(" articles.count\(articles.count)")
+            
+            return articles
+        } catch {
+            print("Failed to fetch articles: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+   static func isArticleFavorite(title: String) -> Bool {
+            let context = UtilityObject.managedContext
+            let fetchRequest: NSFetchRequest<ArticleEntity> = ArticleEntity.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+            
+            do {
+                let results = try context.fetch(fetchRequest)
+                return !results.isEmpty
+            } catch {
+                print("Failed to fetch favorite articles: \(error)")
+                return false
+            }
+        }
+    
     static func addToFav(title:String,imageURL:String,descrption:String,author:String) -> Bool {
           
-        print (" author author author \(author)")
+           print ("title\(title)+ author \(author) + imageURL\(imageURL)+ descrption\(descrption)")
 
             let context = UtilityObject.managedContext
             let entity = NSEntityDescription.entity(forEntityName: "ArticleEntity", in: context)!
@@ -43,6 +75,8 @@ class LocalDataSource{
               if let articleToDelete = results.first {
                   context.delete(articleToDelete)
                   try context.save()
+                  print("deleted correcttly new ")
+
                   return true
               }
           } catch {

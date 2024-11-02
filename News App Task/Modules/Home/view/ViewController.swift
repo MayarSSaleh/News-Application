@@ -10,6 +10,8 @@ import Combine
 
 class ArticlesViewController: UIViewController {
     
+    var selectedDate : String?
+    var selectedTopic: String?
     
         @IBOutlet weak var collectionView: UICollectionView!
         @IBOutlet weak var datePicker: UIDatePicker!
@@ -17,8 +19,10 @@ class ArticlesViewController: UIViewController {
         @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     @IBAction func favButton(_ sender: UIButton) {
-        print(" make navigation here witouht naviagtion bar")
-        
+        if let favVC = storyboard?.instantiateViewController(withIdentifier: "FavoritesViewController") as? FavoritesViewController {
+            favVC.modalPresentationStyle = .fullScreen
+            present(favVC, animated: true, completion: nil)
+         }
     }
     
     private var viewModel: ArticlesViewModel!
@@ -85,14 +89,16 @@ class ArticlesViewController: UIViewController {
         }
 
         @IBAction func fetchByDate(_ sender: Any) {
-            let selectedDate = datePicker.date
+            let userChooseDate = datePicker.date
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            let dateString = dateFormatter.string(from: selectedDate)
-            
-          //  print(" dateString\(dateString)")
+            let dateString = dateFormatter.string(from: userChooseDate)
 
-            viewModel.fetchArticles(from:dateString)
+            selectedDate = dateString
+            
+//            viewModel.fetchArticles( from: dateString)
+
+            viewModel.fetchArticles(resultAbout: selectedTopic, from: dateString)
         }
 
         private func showAlert(message: String) {
@@ -117,9 +123,9 @@ extension ArticlesViewController : UISearchBarDelegate {
          if searchText.isEmpty {
              viewModel.fetchArticles()
          }else{
-             
-             viewModel.fetchArticles(resultAbout: searchText)
-
+             selectedTopic = searchText
+//             viewModel.fetchArticles(resultAbout: searchText)
+             viewModel.fetchArticles(resultAbout: searchText, from: selectedDate)
          }
      }
     
@@ -150,7 +156,7 @@ extension ArticlesViewController: UICollectionViewDataSource , UICollectionViewD
             if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController {
                 detailsVC.imageURL = article.urlToImage
                 detailsVC.titleText = article.title
-                detailsVC.descriptionText = article.content
+                detailsVC.descriptionText = article.description
                 detailsVC.authorNameText = article.author
                 detailsVC.modalPresentationStyle = .fullScreen
                 present(detailsVC, animated: true, completion: nil)
