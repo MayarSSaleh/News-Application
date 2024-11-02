@@ -31,9 +31,15 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(article:Article){
-            let placeholderImageURL = "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-            image.kf.setImage(with: URL(string: article.urlToImage ?? placeholderImageURL))
-            
+      
+        image.contentMode = .scaleAspectFit
+        let url = URL(string: article.urlToImage ?? "")
+        image.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "no-image"),
+            options: [.transition(.fade(0.3))]
+        )
+
             newsTitle.text = article.title
         // for spaceing to avoid cut the word it self
         newsSubTitle.text = "\u{00A0}\u{00A0}\u{00A0}\(article.author ?? "")\u{00A0}\u{00A0}\u{00A0} "

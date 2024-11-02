@@ -9,15 +9,16 @@ import UIKit
 import Combine
 
 class ArticlesViewController: UIViewController {
+    
+    
         @IBOutlet weak var collectionView: UICollectionView!
         @IBOutlet weak var datePicker: UIDatePicker!
-       @IBOutlet weak var searchBar: UISearchBar!
-    
-    
+        @IBOutlet weak var searchBar: UISearchBar!
         @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     @IBAction func favButton(_ sender: UIButton) {
         print(" make navigation here witouht naviagtion bar")
+        
     }
     
     private var viewModel: ArticlesViewModel!
@@ -25,24 +26,32 @@ class ArticlesViewController: UIViewController {
 
     override func viewDidLoad() {
             super.viewDidLoad()
-            let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
-        collectionView.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
+        
+        searchBar.delegate = self
+        
+        viewModel = ArticlesViewModel()
+        setUp()
+        bindViewModel()
+        viewModel.fetchArticles()
+        
+        }
+    
+    
+    private func setUp(){
         searchBar.backgroundImage = UIImage()
-        searchBar.barTintColor = UIColor.clear 
-
+        searchBar.barTintColor = UIColor.clear
         datePicker.maximumDate = Date()
         datePicker.date = Date()
         
-        // Set the minimum date to October 1, 2024
+        // Set the minimum date to October 2, 2024 as it my limit according the api
           let dateFormatter = DateFormatter()
           dateFormatter.dateFormat = "yyyy-MM-dd"
-          if let minDate = dateFormatter.date(from: "2024-10-01") {
+          if let minDate = dateFormatter.date(from: "2024-10-02") {
               datePicker.minimumDate = minDate
           }
         
-        viewModel = ArticlesViewModel()
-        bindViewModel()
-        viewModel.fetchArticles(for: .general)
+            let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
+        collectionView.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
         }
 
         private func bindViewModel() {
@@ -81,19 +90,10 @@ class ArticlesViewController: UIViewController {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let dateString = dateFormatter.string(from: selectedDate)
             
-            print(" dateString\(dateString)")
-            print(" dateString\(dateString)")
-            print(" dateString\(dateString)")
+          //  print(" dateString\(dateString)")
 
-            viewModel.fetchArticles(for: .userDefinedDate,from:dateString)
+            viewModel.fetchArticles(from:dateString)
         }
-
-    
-//        @IBAction func searchArticles(_ sender: UISearchBar) {
-//            if let searchText = sender.text, !searchText.isEmpty {
-//                viewModel.fetchArticles(for: .search, searchQuery: searchText)
-//            }
-//        }
 
         private func showAlert(message: String) {
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -102,7 +102,30 @@ class ArticlesViewController: UIViewController {
         }
     }
 
-    extension ArticlesViewController: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+
+extension ArticlesViewController : UISearchBarDelegate {
+    
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//         // Dismiss the keyboard
+//         searchBar.resignFirstResponder()
+//         
+//         guard let searchText = searchBar.text, !searchText.isEmpty else { return }
+//         viewModel.fetchArticles(resultAbout: searchText)
+//     }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+         if searchText.isEmpty {
+             viewModel.fetchArticles()
+         }else{
+             
+             viewModel.fetchArticles(resultAbout: searchText)
+
+         }
+     }
+    
+}
+
+extension ArticlesViewController: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return viewModel.articles.count
         }
@@ -129,7 +152,7 @@ class ArticlesViewController: UIViewController {
                 detailsVC.titleText = article.title
                 detailsVC.descriptionText = article.content
                 detailsVC.authorNameText = article.author
-                detailsVC.modalPresentationStyle = .fullScreen                
+                detailsVC.modalPresentationStyle = .fullScreen
                 present(detailsVC, animated: true, completion: nil)
              }
             

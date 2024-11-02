@@ -263,7 +263,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZT3-1P-ESy">
                                 <rect key="frame" x="214.66666666666663" y="758" width="148.33333333333337" height="35"/>
-                                <color key="backgroundColor" red="0.71702325344085693" green="0.24182760715484619" blue="0.097607754170894623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.83132439851760864" green="0.25073999166488647" blue="0.11737150698900223" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" red="0.97644001245498657" green="0.95498377084732056" blue="0.93204706907272339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Add to Favourite"/>

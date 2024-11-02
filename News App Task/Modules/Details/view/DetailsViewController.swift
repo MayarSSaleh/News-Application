@@ -26,6 +26,15 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+    }
+    
+    private func setupUI() {
+//        print (" title 000\(titleText ?? " ")")
+//        print (" imageURL 00000\(imageURL ?? " ")")
+//        print (" descriptionText 00000\(descriptionText ?? " ")")
+//        print (" authorNameText 00000000\(authorNameText ?? " ")")
+//        
         favButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         favButton.layer.cornerRadius = 20
         
@@ -36,21 +45,27 @@ class DetailsViewController: UIViewController {
         authorName.backgroundColor = UIColor.systemGray5
         authorName.layer.cornerRadius = 10
         authorName.clipsToBounds = true
-                
-        setupUI()
-    }
-    
-    private func setupUI() {
-//        print (" title 000\(titleText ?? " ")")
-//        print (" imageURL 00000\(imageURL ?? " ")")
-//        print (" descriptionText 00000\(descriptionText ?? " ")")
-//        print (" authorNameText 00000000\(authorNameText ?? " ")")
-//        
+        
+        
         titleLabel.text = titleText
         descriptionLabel.text = descriptionText ?? ""
         // to make space before the word
         authorName.text = "\u{00A0}\u{00A0}\u{00A0}\(authorNameText ?? "")\u{00A0}\u{00A0}\u{00A0} "
-        imageView.kf.setImage(with: URL(string: imageURL ?? ""))
+
+
+        imageView.contentMode = .scaleAspectFit
+        if let imageURL = imageURL, !imageURL.trimmingCharacters(in: .whitespaces).isEmpty {
+            let url = URL(string: imageURL)
+            imageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "no-image"),
+                options: [.transition(.fade(0.3))]
+            )
+        } else {
+            // Set the placeholder image when imageURL is empty or nil
+            imageView.image = UIImage(named: "no-image")
+        }
+
     }
     
     
@@ -58,7 +73,6 @@ class DetailsViewController: UIViewController {
         print("Add to favorite")
         
                 guard let title = titleText,
-                      let imageURL = imageURL,
                       let description = descriptionText,
                       let author = authorNameText else {
                     // Show alert for missing data
@@ -66,7 +80,7 @@ class DetailsViewController: UIViewController {
                     return
                 }
         
-                    let addStatus = FavouriteNewsViewModel.addToFav(title: title, imageURL: imageURL, descrption: description, author: author)
+        let addStatus = FavouriteNewsViewModel.addToFav(title: title, imageURL: imageURL ?? "", descrption: description, author: author)
         
                     if addStatus {
                         // Dismiss the view controller first
