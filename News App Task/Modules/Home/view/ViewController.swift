@@ -11,10 +11,7 @@ import Combine
 class ArticlesViewController: UIViewController {
         @IBOutlet weak var collectionView: UICollectionView!
         @IBOutlet weak var datePicker: UIDatePicker!
-    
-    
-    
-//        @IBOutlet weak var searchBar: UISearchBar!
+       @IBOutlet weak var searchBar: UISearchBar!
     
     
         @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -30,11 +27,12 @@ class ArticlesViewController: UIViewController {
             super.viewDidLoad()
             let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
-        collectionView.backgroundColor = UIColor.systemGray6
+        searchBar.backgroundImage = UIImage()
+        searchBar.barTintColor = UIColor.clear 
 
-            viewModel = ArticlesViewModel()
-            bindViewModel()
-            viewModel.fetchArticles(for: .general)
+    viewModel = ArticlesViewModel()
+    bindViewModel()
+    viewModel.fetchArticles(for: .general)
         }
 
         private func bindViewModel() {
@@ -81,11 +79,6 @@ class ArticlesViewController: UIViewController {
         }
 
     
-    
-    
-    
-    
-    
 //        @IBAction func searchArticles(_ sender: UISearchBar) {
 //            if let searchText = sender.text, !searchText.isEmpty {
 //                viewModel.fetchArticles(for: .search, searchQuery: searchText)
@@ -107,27 +100,30 @@ class ArticlesViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellCollectionViewCell", for: indexPath) as! ArticleCellCollectionViewCell
             let article = viewModel.articles[indexPath.item]
-            print(" in cell for item functoion artical title is \(article.title)")
-            print(" in cell for item functoion artical title is \(article.title)")
-            print(" in cell for item functoion artical title is \(article.title)")
-
-            cell.configure(article: article)
+           cell.configure(article: article)
             return cell
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             let width = (collectionView.frame.width / 2) - 10
-            let height = (collectionView.frame.height / 2) - 5
+            let height = (collectionView.frame.height / 2) - 10
             return CGSize(width: width, height: height)
         }
 
-        
+                
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let article = viewModel.articles[indexPath.item]
             
-            print(" index of the selected = \(indexPath)")
+            let detailsVC = DetailsViewController()
             
+            detailsVC.imageURL = article.urlToImage
+            detailsVC.titleText = article.title
+            detailsVC.descriptionText = article.content
+            detailsVC.authorNameText = article.author
+            
+            detailsVC.modalPresentationStyle = .fullScreen
+            present(detailsVC, animated: true, completion: nil)
         }
-       
-            
-    }
+
+}
 

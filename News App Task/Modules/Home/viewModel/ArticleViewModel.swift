@@ -46,8 +46,11 @@ class ArticlesViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                 }
             }, receiveValue: { [weak self] articles in
-                self?.articles = articles
-                self?.filteredArticles = articles // Initialize filteredArticles with the fetched articles
+                // Filter out articles with nil values for essential fields
+                self?.articles = articles.filter { article in
+                    return article.title != "[Removed]"
+                }
+                self?.filteredArticles = self?.articles ?? []
             })
             .store(in: &cancellables)
     }
