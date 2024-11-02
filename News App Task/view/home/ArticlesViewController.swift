@@ -94,6 +94,7 @@ class ArticlesViewController: UIViewController {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let dateString = dateFormatter.string(from: userChooseDate)
+            
             selectedDate = dateString
             
             viewModel.fetchArticles(resultAbout: selectedTopic, from: dateString)

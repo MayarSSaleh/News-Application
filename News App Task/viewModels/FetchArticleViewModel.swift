@@ -17,16 +17,8 @@ class ArticlesViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let networkService = NetworkManager.shared
 
-  
-    /*
- https://newsapi.org/v2/everything?q=apple&from=2024-10-31&sortBy=popularity&apiKey=20c2eab9e362409fa8c33473d8b7c86e
- https://newsapi.org/v2/everything?q=tesla&from=2024-09-30&sortBy=publishedAt&apiK ey=
-     */
-     
-    
     func fetchArticles(resultAbout: String? = nil , from date: String? = nil ) {
         isLoading = true
-        // Construct the URL based on the type of fetch
         let urlString: String
             urlString = "https://newsapi.org/v2/everything?q=\(resultAbout ?? "apple")&from=\(date ?? "2024-11-01")&sortBy=popularity&apiKey=0a3cd94367624ce4a68df2a2017e98a8"
         

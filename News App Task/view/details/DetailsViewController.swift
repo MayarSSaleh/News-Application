@@ -37,22 +37,17 @@ class DetailsViewController: UIViewController {
     private func setupUI() {
         favButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         favButton.layer.cornerRadius = 20
-        
         imageView.layer.cornerRadius = 20
         imageView.layer.masksToBounds = true
-        
         authorName.lineBreakMode = .byWordWrapping
         authorName.backgroundColor = UIColor.systemGray5
         authorName.layer.cornerRadius = 10
         authorName.clipsToBounds = true
         
-        
         titleLabel.text = titleText
         descriptionLabel.text = descriptionText ?? ""
         // to make space before the word
         authorName.text = "\u{00A0}\u{00A0}\u{00A0}\(authorNameText ?? "")\u{00A0}\u{00A0}\u{00A0} "
-
-      //  imageView.contentMode = .scaleAspectFit
         if let imageURL = imageURL, !imageURL.trimmingCharacters(in: .whitespaces).isEmpty {
             let url = URL(string: imageURL)
             imageView.kf.setImage(
@@ -61,15 +56,13 @@ class DetailsViewController: UIViewController {
                 options: [.transition(.fade(0.3))]
             )
         } else {
-            // Set the placeholder image when imageURL is empty or nil
             imageView.image = UIImage(named: "no-image")
         }
-
     }
     
     
-    private func checkIfFavorite() {
-           guard let title = titleText else { return }
+      private func checkIfFavorite() {
+        guard let title = titleText else { return }
            isFavorite = FavoritesViewModel.isArticleFavorite(title: title)
            updateFavoriteButtonTitle()
        }
@@ -100,7 +93,6 @@ class DetailsViewController: UIViewController {
             preferredStyle: .alert
         )
 
-        // "Yes" action to confirm removal
         confirmationAlert.addAction(UIAlertAction(
             title: "Yes",
             style: .destructive,
@@ -113,14 +105,12 @@ class DetailsViewController: UIViewController {
                 }
             }
         ))
-
         confirmationAlert.addAction(UIAlertAction(title: "No",style: .cancel,handler: nil ))
         present(confirmationAlert, animated: true, completion: nil)
 
     }
     
     private func addToFav(){
-        
         guard let title = titleText,
               let description = descriptionText,
               let author = authorNameText else {
@@ -131,7 +121,6 @@ class DetailsViewController: UIViewController {
         let addStatus = FavouriteNewsViewModel.addToFav(title: title, imageURL: imageURL ?? "", descrption: description, author: author)
         if addStatus {
             isFavorite = true
-            // Dismiss the view controller first
             dismiss(animated: true) {
                 let alert = UIAlertController(title: self.titleText ?? "Added", message: "added to favorites successfully", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
@@ -139,7 +128,6 @@ class DetailsViewController: UIViewController {
                 }))
                  alert.addAction(UIAlertAction(title: "Ok",style: .default,handler: nil))
                 
-                // Present the alert from the root view controller or previous view controller
                 if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
                     rootVC.present(alert, animated: true, completion: nil)
                 }

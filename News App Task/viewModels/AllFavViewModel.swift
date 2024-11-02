@@ -20,12 +20,9 @@ class FavoritesViewModel {
 
     func fetchFavorites() {
         articles = LocalDataSource.fetchAllFavorites()
-//        print("articales\( articles)")
     }
     
-    static func  isArticleFavorite(title: String) -> Bool{
-        print(" the isArticleFavorite is \(title )")
-        
+    static func isArticleFavorite(title: String) -> Bool{
         return LocalDataSource.isArticleFavorite(title:title)
     }
 }

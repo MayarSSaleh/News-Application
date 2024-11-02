@@ -37,7 +37,3 @@ class Article: Decodable {
         )
     }
 }
-
-class ArticleResponse: Decodable {
-   var articles: [Article]
-}
