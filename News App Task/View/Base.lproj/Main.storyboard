@@ -6,7 +6,6 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,6 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="ZFz-3I-FeL">
+                                <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
+                                <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
+                            </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eEX-CC-hv8">
                                 <rect key="frame" x="25.000000000000007" y="59" width="99.666666666666686" height="49"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="41"/>
@@ -31,6 +34,9 @@
                                     <imageReference key="image" image="heart.circle.fill" catalog="system" symbolScale="large" variableValue="1"/>
                                     <color key="baseForegroundColor" systemColor="systemRedColor"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="favButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="emG-cP-hzZ"/>
+                                </connections>
                             </button>
                             <searchBar contentMode="redraw" placeholder="Search for news" translatesAutoresizingMaskIntoConstraints="NO" id="NRn-x1-UG9">
                                 <rect key="frame" x="16" y="108" width="361" height="56"/>
@@ -47,10 +53,14 @@
                             </label>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="zrn-jQ-H0i">
                                 <rect key="frame" x="182.66666666666663" y="211.33333333333334" width="194.33333333333337" height="34.333333333333343"/>
-                                <color key="tintColor" red="0.0" green="0.37690211309999999" blue="0.79248109799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zrn-jQ-H0i" secondAttribute="height" multiplier="198:35" id="nR7-Xv-YWx"/>
                                 </constraints>
+                                <connections>
+                                    <action selector="fetchByDate:" destination="BYZ-38-t0r" eventType="valueChanged" id="ZDa-Iz-3qW"/>
+                                </connections>
                             </datePicker>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="arq-EC-Cwr">
                                 <rect key="frame" x="16" y="264" width="361" height="504"/>
@@ -61,16 +71,7 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ArticleCell" id="JKH-k3-PiQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="r9z-qi-MVJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                </cells>
+                                <cells/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="IBd-Pt-tt7"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Q38-Kg-u0P"/>
@@ -89,14 +90,21 @@
                             <constraint firstItem="eEX-CC-hv8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="Whn-aI-Kej"/>
                             <constraint firstItem="NRn-x1-UG9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ZSj-zT-BaH"/>
                             <constraint firstItem="arq-EC-Cwr" firstAttribute="trailing" secondItem="zrn-jQ-H0i" secondAttribute="trailing" id="gn1-fc-pIj"/>
+                            <constraint firstItem="ZFz-3I-FeL" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="iNG-Qd-Ws8"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="arq-EC-Cwr" secondAttribute="bottom" constant="50" id="mCO-LW-zA0"/>
                             <constraint firstItem="arq-EC-Cwr" firstAttribute="top" secondItem="zrn-jQ-H0i" secondAttribute="bottom" constant="18.333333333333314" id="o98-Mq-b2f"/>
                             <constraint firstItem="zrn-jQ-H0i" firstAttribute="centerY" secondItem="roS-BN-K2s" secondAttribute="centerY" id="oce-hu-wgt"/>
+                            <constraint firstItem="ZFz-3I-FeL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="r97-aG-HrO"/>
                             <constraint firstItem="NRn-x1-UG9" firstAttribute="top" secondItem="eEX-CC-hv8" secondAttribute="bottom" id="rNy-5Q-cnW"/>
                             <constraint firstItem="roS-BN-K2s" firstAttribute="leading" secondItem="NRn-x1-UG9" secondAttribute="leading" id="uRn-RX-tJE"/>
                             <constraint firstItem="zrn-jQ-H0i" firstAttribute="trailing" secondItem="NRn-x1-UG9" secondAttribute="trailing" id="zHp-De-JXC"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="ZFz-3I-FeL" id="13d-BC-TkN"/>
+                        <outlet property="collectionView" destination="arq-EC-Cwr" id="uLV-7e-n1A"/>
+                        <outlet property="datePicker" destination="zrn-jQ-H0i" id="UaA-AB-bWg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -108,8 +116,11 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

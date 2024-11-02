@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import CoreData
 
 class ArticlesViewModel: ObservableObject {
     @Published var articles: [Article] = []
@@ -17,11 +16,9 @@ class ArticlesViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private let networkService = NetworkManager.shared
-   // private let coreDataService = CoreDataService
 
   
 
-    // Main function to fetch articles based on the provided parameters
     func fetchArticles(for type: FetchType, from date: String? = nil, searchQuery: String? = nil) {
         isLoading = true
        /*
@@ -35,13 +32,12 @@ class ArticlesViewModel: ObservableObject {
             urlString = "https://newsapi.org/v2/everything?q=apple&from=2024-10-31&to=2024-10-31&sortBy=popularity&apiKey=20c2eab9e362409fa8c33473d8b7c86e"
         case .userDefinedDate:
             guard let date = date else { return }
-            urlString = "https://newsapi.org/v2/everything?q=apple&from=\(date )&to=to=2024-10-31&sortBy=popularity&apiKey=20c2eab9e362409fa8c33473d8b7c86e"
+            urlString = "https://newsapi.org/v2/everything?q=apple&from=\(date)&to=to=2024-10-31&sortBy=popularity&apiKey=20c2eab9e362409fa8c33473d8b7c86e"
         case .search:
             guard let query = searchQuery else { return }
             urlString = "https://newsapi.org/v2/everything?q=\(query)&sortBy=popularity&apiKey=20c2eab9e362409fa8c33473d8b7c86e"
         }
 
-        // Call the network service with the constructed URL
         networkService.fetchArticles(from: urlString)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
@@ -52,14 +48,8 @@ class ArticlesViewModel: ObservableObject {
             }, receiveValue: { [weak self] articles in
                 self?.articles = articles
                 self?.filteredArticles = articles // Initialize filteredArticles with the fetched articles
-                self?.saveArticlesToCoreData(articles)
             })
             .store(in: &cancellables)
-    }
-
-    private func saveArticlesToCoreData(_ articles: [Article]) {
-        // Save articles to Core Data using the coreDataService
-    //    coreDataService.saveArticles(articles)
     }
 }
 

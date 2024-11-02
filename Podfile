@@ -7,6 +7,8 @@ target 'News App Task' do
 
   # Pods for News App Task
    pod 'CombineCocoa'
+    pod 'Kingfisher'
+
 
 
 end

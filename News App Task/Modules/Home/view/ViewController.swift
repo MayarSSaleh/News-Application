@@ -9,17 +9,30 @@ import UIKit
 import Combine
 
 class ArticlesViewController: UIViewController {
-        @IBOutlet weak var collectionView: UICollectionView! // Assuming you have a UICollectionView outlet
-        @IBOutlet weak var datePicker: UIDatePicker! // Assuming you have a date picker for user-defined dates
-        @IBOutlet weak var searchBar: UISearchBar! // Assuming you have a search bar for searching articles
-        @IBOutlet weak var activityIndicator: UIActivityIndicatorView! // Outlet for the activity indicator
+        @IBOutlet weak var collectionView: UICollectionView!
+        @IBOutlet weak var datePicker: UIDatePicker!
+    
+    
+    
+//        @IBOutlet weak var searchBar: UISearchBar!
+    
+    
+        @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-        private var viewModel: ArticlesViewModel!
-        private var cancellables = Set<AnyCancellable>()
+    @IBAction func favButton(_ sender: UIButton) {
+        print(" make navigation here witouht naviagtion bar")
+    }
+    
+    private var viewModel: ArticlesViewModel!
+    private var cancellables = Set<AnyCancellable>()
 
-        override func viewDidLoad() {
+    override func viewDidLoad() {
             super.viewDidLoad()
-            // Bind the view model to the collection view
+            let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
+        collectionView.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
+        collectionView.backgroundColor = UIColor.systemGray6
+
+            viewModel = ArticlesViewModel()
             bindViewModel()
             viewModel.fetchArticles(for: .general)
         }
@@ -29,7 +42,7 @@ class ArticlesViewController: UIViewController {
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
                     self?.collectionView.reloadData()
-                    self?.activityIndicator.stopAnimating() // Stop the activity indicator
+                    self?.activityIndicator.stopAnimating()
                 }
                 .store(in: &cancellables)
 
@@ -37,9 +50,9 @@ class ArticlesViewController: UIViewController {
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] isLoading in
                     if isLoading {
-                        self?.activityIndicator.startAnimating() // Start the activity indicator
+                        self?.activityIndicator.startAnimating()
                     } else {
-                        self?.activityIndicator.stopAnimating() // Stop it when not loading
+                        self?.activityIndicator.stopAnimating()
                     }
                 }
                 .store(in: &cancellables)
@@ -48,7 +61,6 @@ class ArticlesViewController: UIViewController {
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] errorMessage in
                     if let message = errorMessage {
-                        // Show error alert
                         self?.showAlert(message: message)
                     }
                 }
@@ -60,15 +72,25 @@ class ArticlesViewController: UIViewController {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let dateString = dateFormatter.string(from: selectedDate)
+            
+            print(" dateString\(dateString)")
+            print(" dateString\(dateString)")
+            print(" dateString\(dateString)")
 
-            viewModel.fetchArticles(for: .userDefinedDate, date: dateString)
+            viewModel.fetchArticles(for: .userDefinedDate,from:dateString)
         }
 
-        @IBAction func searchArticles(_ sender: UISearchBar) {
-            if let searchText = sender.text, !searchText.isEmpty {
-                viewModel.fetchArticles(for: .search, searchQuery: searchText)
-            }
-        }
+    
+    
+    
+    
+    
+    
+//        @IBAction func searchArticles(_ sender: UISearchBar) {
+//            if let searchText = sender.text, !searchText.isEmpty {
+//                viewModel.fetchArticles(for: .search, searchQuery: searchText)
+//            }
+//        }
 
         private func showAlert(message: String) {
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -77,8 +99,7 @@ class ArticlesViewController: UIViewController {
         }
     }
 
-    // MARK: - UICollectionViewDataSource
-    extension ArticlesViewController: UICollectionViewDataSource {
+    extension ArticlesViewController: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return viewModel.articles.count
         }
@@ -86,12 +107,27 @@ class ArticlesViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellCollectionViewCell", for: indexPath) as! ArticleCellCollectionViewCell
             let article = viewModel.articles[indexPath.item]
-            cell.configure(with: article)
+            print(" in cell for item functoion artical title is \(article.title)")
+            print(" in cell for item functoion artical title is \(article.title)")
+            print(" in cell for item functoion artical title is \(article.title)")
+
+            cell.configure(article: article)
             return cell
         }
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            let width = (collectionView.frame.width / 2) - 10
+            let height = (collectionView.frame.height / 2) - 5
+            return CGSize(width: width, height: height)
+        }
+
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            
+            print(" index of the selected = \(indexPath)")
+            
+        }
+       
+            
     }
 
-    // MARK: - UICollectionViewDelegate
-    extension ArticlesViewController: UICollectionViewDelegate {
-        // Implement any delegate methods if needed
-    }

@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Kingfisher
+
 
 class ArticleCellCollectionViewCell: UICollectionViewCell {
 
@@ -19,20 +21,20 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+               image.layer.cornerRadius = 25
+        contentView.backgroundColor = UIColor.white
+
+        newsSubTitle.backgroundColor = UIColor.systemGray5
+        newsSubTitle.layer.cornerRadius = 50
     }
+    
     func configure(article:Article){
         if(article.author == nil){
             print(" artical is nil")
-        }else {
-            
-            if let url = URL(string: article.urlToImage) {
-                image.kf.setImage(with: url)
-            }
-    //        image.image = donlod it
-            print("article \(article.author ?? "" ) article.title\(article.title) article.desc\(String(describing: article.description))")
-            
-            
+        }else {        
+            let placeholderImageURL = "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                       image.kf.setImage(with: URL(string: article.urlToImage ?? placeholderImageURL))
+                      
             newsTitle.text = article.title
             newsSubTitle.text = article.author ?? "no authour name found"
             newsDescrption.text = article.description
