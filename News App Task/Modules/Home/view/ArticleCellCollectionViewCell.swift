@@ -22,8 +22,6 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
         image.layer.cornerRadius = 20
         contentView.backgroundColor = UIColor.white
         contentView.layer.cornerRadius = 20
-        newsSubTitle.numberOfLines = 0
-        newsSubTitle.lineBreakMode = .byWordWrapping
         newsSubTitle.backgroundColor = UIColor.systemGray5
         newsSubTitle.layer.cornerRadius = 10
         newsSubTitle.clipsToBounds = true
@@ -31,20 +29,15 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(article:Article){
-      
-//        image.contentMode = .scaleAspectFit
+        newsTitle.text = article.title
+        newsSubTitle.text = "\u{00A0}\u{00A0}\(article.author ?? "")\u{00A0}"
+        newsDescrption.text = article.description
         let url = URL(string: article.urlToImage ?? "")
         image.kf.setImage(
             with: url,
             placeholder: UIImage(named: "no-image"),
             options: [.transition(.fade(0.3))]
         )
-
-            newsTitle.text = article.title
-        // for spaceing to avoid cut the word it self
-        newsSubTitle.text = "\u{00A0}\u{00A0}\u{00A0}\(article.author ?? "")\u{00A0}\u{00A0}\u{00A0} "
-            newsDescrption.text = article.description
-        
     }
 
 }

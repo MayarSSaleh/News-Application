@@ -10,14 +10,18 @@ import Combine
 
 class ArticlesViewController: UIViewController {
     
-    var selectedDate : String?
-    var selectedTopic: String?
-    
-        @IBOutlet weak var collectionView: UICollectionView!
-        @IBOutlet weak var datePicker: UIDatePicker!
-        @IBOutlet weak var searchBar: UISearchBar!
-        @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    private var selectedDate : String?
+    private var selectedTopic: String?
+    private var searchTimer: Timer?
+    private var viewModel: ArticlesViewModel!
+    private var cancellables = Set<AnyCancellable>()
 
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     @IBAction func favButton(_ sender: UIButton) {
         if let favVC = storyboard?.instantiateViewController(withIdentifier: "FavoritesViewController") as? FavoritesViewController {
             favVC.modalPresentationStyle = .fullScreen
@@ -25,21 +29,17 @@ class ArticlesViewController: UIViewController {
          }
     }
     
-    private var viewModel: ArticlesViewModel!
-    private var cancellables = Set<AnyCancellable>()
-
     override func viewDidLoad() {
             super.viewDidLoad()
-        
         searchBar.delegate = self
-        
         viewModel = ArticlesViewModel()
         setUp()
         bindViewModel()
-        viewModel.fetchArticles()
-        
         }
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.fetchArticles()
+    }
     
     private func setUp(){
         searchBar.backgroundImage = UIImage()
@@ -58,7 +58,8 @@ class ArticlesViewController: UIViewController {
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
         }
 
-        private func bindViewModel() {
+
+    private func bindViewModel() {
             viewModel.$articles
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
@@ -93,11 +94,8 @@ class ArticlesViewController: UIViewController {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let dateString = dateFormatter.string(from: userChooseDate)
-
             selectedDate = dateString
             
-//            viewModel.fetchArticles( from: dateString)
-
             viewModel.fetchArticles(resultAbout: selectedTopic, from: dateString)
         }
 
@@ -110,26 +108,24 @@ class ArticlesViewController: UIViewController {
 
 
 extension ArticlesViewController : UISearchBarDelegate {
-    
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//         // Dismiss the keyboard
-//         searchBar.resignFirstResponder()
-//         
-//         guard let searchText = searchBar.text, !searchText.isEmpty else { return }
-//         viewModel.fetchArticles(resultAbout: searchText)
-//     }
-
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-         if searchText.isEmpty {
-             viewModel.fetchArticles()
-         }else{
-             selectedTopic = searchText
-//             viewModel.fetchArticles(resultAbout: searchText)
-             viewModel.fetchArticles(resultAbout: searchText, from: selectedDate)
-         }
-     }
-    
+        // Clear any existing timer
+        searchTimer?.invalidate()
+        
+        // Start a new timer
+        //Starting a new delayed timer to perform the search only after the user has stopped typing for a specified time (2 seconds).
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 2.0 , repeats: false) { [weak self] _ in
+            if let searchText = searchBar.text, !searchText.isEmpty {
+                self?.selectedTopic = searchText
+                self?.viewModel.fetchArticles(resultAbout: searchText, from: self?.selectedDate)
+            } else {
+                self?.viewModel.fetchArticles()
+            }
+        }
+    }
 }
+
+
 
 extension ArticlesViewController: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

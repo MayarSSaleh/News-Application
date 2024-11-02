@@ -3,7 +3,6 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,17 +20,6 @@
                                 <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
                                 <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5a-B8-0K7">
-                                <rect key="frame" x="318.33333333333331" y="69" width="49.666666666666686" height="35"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <imageReference key="image" image="heart.circle.fill" catalog="system" symbolScale="large" variableValue="1"/>
-                                    <color key="baseForegroundColor" systemColor="systemRedColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="favButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="emG-cP-hzZ"/>
-                                </connections>
-                            </button>
                             <searchBar contentMode="redraw" placeholder="Search for news" translatesAutoresizingMaskIntoConstraints="NO" id="NRn-x1-UG9">
                                 <rect key="frame" x="16" y="124" width="361" height="56"/>
                                 <color key="barTintColor" systemColor="systemGray6Color"/>
@@ -59,7 +47,7 @@
                             </datePicker>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="arq-EC-Cwr">
                                 <rect key="frame" x="16" y="280" width="361" height="488"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ypw-S7-CDf">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -87,15 +75,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jvk-rj-AQF">
+                                <rect key="frame" x="327.33333333333331" y="82" width="49.666666666666686" height="34.333333333333343"/>
+                                <color key="tintColor" red="0.91697013378143311" green="0.30928939580917358" blue="0.13633427023887634" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="heart.circle.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="favButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2fJ-jJ-sE5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
+                            <constraint firstItem="jvk-rj-AQF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="23" id="9Ji-LZ-MXn"/>
                             <constraint firstItem="mPR-oq-lLY" firstAttribute="leading" secondItem="NRn-x1-UG9" secondAttribute="leading" id="CYK-OB-hrF"/>
                             <constraint firstItem="arq-EC-Cwr" firstAttribute="leading" secondItem="roS-BN-K2s" secondAttribute="leading" id="ChN-W7-QXy"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="a5a-B8-0K7" secondAttribute="trailing" constant="25" id="EM8-CP-Jr9"/>
                             <constraint firstItem="eEX-CC-hv8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="IaO-XD-zin"/>
-                            <constraint firstItem="a5a-B8-0K7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="Il0-NG-XL2"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jvk-rj-AQF" secondAttribute="trailing" constant="16" id="Iyo-fR-SRP"/>
                             <constraint firstItem="roS-BN-K2s" firstAttribute="top" secondItem="NRn-x1-UG9" secondAttribute="bottom" constant="50" id="S9f-yn-vSd"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NRn-x1-UG9" secondAttribute="trailing" constant="16" id="SGv-kn-EJC"/>
                             <constraint firstItem="eEX-CC-hv8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="Whn-aI-Kej"/>
@@ -262,7 +259,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZT3-1P-ESy">
-                                <rect key="frame" x="214.66666666666663" y="758" width="148.33333333333337" height="35"/>
+                                <rect key="frame" x="189.66666666666663" y="758" width="148.33333333333337" height="35"/>
                                 <color key="backgroundColor" red="0.83132439851760864" green="0.25073999166488647" blue="0.11737150698900223" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" red="0.97644001245498657" green="0.95498377084732056" blue="0.93204706907272339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
@@ -282,7 +279,7 @@
                             <constraint firstItem="TtG-2T-F6f" firstAttribute="top" secondItem="7rO-NB-64a" secondAttribute="bottom" constant="16" id="BAH-VG-fIf"/>
                             <constraint firstItem="7rO-NB-64a" firstAttribute="leading" secondItem="HEP-w2-rxR" secondAttribute="leading" id="Dfy-75-emo"/>
                             <constraint firstItem="Kcq-9x-3YF" firstAttribute="trailing" secondItem="HEP-w2-rxR" secondAttribute="trailing" constant="45" id="FgG-cz-vBt"/>
-                            <constraint firstItem="Kcq-9x-3YF" firstAttribute="trailing" secondItem="ZT3-1P-ESy" secondAttribute="trailing" constant="30" id="Gp0-zo-MNC"/>
+                            <constraint firstItem="Kcq-9x-3YF" firstAttribute="trailing" secondItem="ZT3-1P-ESy" secondAttribute="trailing" constant="55" id="Gp0-zo-MNC"/>
                             <constraint firstItem="Gwn-Wm-n2E" firstAttribute="leading" secondItem="Kcq-9x-3YF" secondAttribute="leading" constant="25" id="PYU-RS-F75"/>
                             <constraint firstItem="TtG-2T-F6f" firstAttribute="trailing" secondItem="HEP-w2-rxR" secondAttribute="trailing" id="QZL-MG-xEf"/>
                             <constraint firstItem="Kcq-9x-3YF" firstAttribute="bottom" secondItem="ZT3-1P-ESy" secondAttribute="bottom" constant="25" id="RjI-y2-P2S"/>
@@ -369,9 +366,6 @@
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
