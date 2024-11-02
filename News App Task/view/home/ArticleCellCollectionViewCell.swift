@@ -18,14 +18,12 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         image.layer.cornerRadius = 20
         contentView.backgroundColor = UIColor.white
         contentView.layer.cornerRadius = 20
         newsSubTitle.backgroundColor = UIColor.systemGray5
         newsSubTitle.layer.cornerRadius = 10
         newsSubTitle.clipsToBounds = true
-
     }
     
     func configure(article:Article){

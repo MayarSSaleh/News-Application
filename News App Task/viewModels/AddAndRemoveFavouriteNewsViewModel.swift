@@ -7,16 +7,22 @@
 
 import Foundation
 
-class FavouriteNewsViewModel{
+protocol FavouriteNewsViewModelProtocol {
     
-    static func addToFav(title:String,imageURL:String? = "" ,descrption:String,author:String) -> Bool {
-          return  LocalDataSource.addToFav(title:title,imageURL:imageURL ?? "",descrption:descrption,author:author)
-    }
-    
-    static func removeFromFav(title: String) -> Bool {
-            return LocalDataSource.removeFromFav(title: title)
-        }
+    func addToFav(title: String, imageURL: String?, description: String, author: String) -> Bool
+    func removeFromFav(title: String) -> Bool
     
 }
+
+
+class FavouriteNewsViewModel: FavouriteNewsViewModelProtocol {
+        func addToFav(title: String, imageURL: String? = "", description: String, author: String) -> Bool {
+            return LocalDataSource.addToFav(title: title, imageURL: imageURL ?? "", descrption: description, author: author)
+        }
+        
+        func removeFromFav(title: String) -> Bool {
+            return LocalDataSource.removeFromFav(title: title)
+        }
+    }
 
 

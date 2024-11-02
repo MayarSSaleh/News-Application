@@ -13,7 +13,7 @@ class ArticlesViewController: UIViewController {
     private var selectedDate : String?
     private var selectedTopic: String?
     private var searchTimer: Timer?
-    private var viewModel: ArticlesViewModel!
+    private var viewModel = FetchArticlesViewModel()
     private var cancellables = Set<AnyCancellable>()
 
     
@@ -32,13 +32,12 @@ class ArticlesViewController: UIViewController {
     override func viewDidLoad() {
             super.viewDidLoad()
         searchBar.delegate = self
-        viewModel = ArticlesViewModel()
         setUp()
         bindViewModel()
-        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
-        viewModel.fetchArticles()
+        viewModel.fetchArticlesByParameters()
     }
     
     private func setUp(){
@@ -56,7 +55,7 @@ class ArticlesViewController: UIViewController {
         
             let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
-        }
+    }
 
 
     private func bindViewModel() {
@@ -97,7 +96,7 @@ class ArticlesViewController: UIViewController {
             
             selectedDate = dateString
             
-            viewModel.fetchArticles(resultAbout: selectedTopic, from: dateString)
+            viewModel.fetchArticlesByParameters(resultAbout: selectedTopic, from: dateString)
         }
 
         private func showAlert(message: String) {
@@ -110,17 +109,14 @@ class ArticlesViewController: UIViewController {
 
 extension ArticlesViewController : UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Clear any existing timer
-        searchTimer?.invalidate()
         
-        // Start a new timer
-        //Starting a new delayed timer to perform the search only after the user has stopped typing for a specified time (2 seconds).
+        searchTimer?.invalidate()
         searchTimer = Timer.scheduledTimer(withTimeInterval: 2.0 , repeats: false) { [weak self] _ in
             if let searchText = searchBar.text, !searchText.isEmpty {
                 self?.selectedTopic = searchText
-                self?.viewModel.fetchArticles(resultAbout: searchText, from: self?.selectedDate)
+                self?.viewModel.fetchArticlesByParameters(resultAbout: searchText, from: self?.selectedDate)
             } else {
-                self?.viewModel.fetchArticles()
+                self?.viewModel.fetchArticlesByParameters()
             }
         }
     }

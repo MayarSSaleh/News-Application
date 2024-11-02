@@ -10,17 +10,12 @@ import CoreData
 
 class LocalDataSource{
     
-
     static func fetchAllFavorites() -> [Article] {
         let context = UtilityObject.managedContext
         let fetchRequest: NSFetchRequest<ArticleEntity> = ArticleEntity.fetchRequest()
-        
         do {
             let results = try context.fetch(fetchRequest)
             let articles = results.map { Article(from: $0) }
-            
-            print(" articles.count\(articles.count)")
-            
             return articles
         } catch {
             print("Failed to fetch articles: \(error.localizedDescription)")
@@ -37,15 +32,11 @@ class LocalDataSource{
                 let results = try context.fetch(fetchRequest)
                 return !results.isEmpty
             } catch {
-                print("Failed to fetch favorite articles: \(error)")
                 return false
             }
         }
     
     static func addToFav(title:String,imageURL:String,descrption:String,author:String) -> Bool {
-          
-           print ("title\(title)+ author \(author) + imageURL\(imageURL)+ descrption\(descrption)")
-
             let context = UtilityObject.managedContext
             let entity = NSEntityDescription.entity(forEntityName: "ArticleEntity", in: context)!
             let newArtical = NSManagedObject(entity: entity, insertInto: context)
@@ -56,27 +47,21 @@ class LocalDataSource{
             newArtical.setValue(author, forKey: "author")
             do {
                 try context.save()
-                print("Successfully saved new ")
-
                 return true;
             } catch {
-                print("Failed to save : \(error)")
                 return false;
             }
-        }
+    }
     
     static func removeFromFav(title: String) -> Bool {
           let context = UtilityObject.managedContext
           let fetchRequest: NSFetchRequest<ArticleEntity> = ArticleEntity.fetchRequest()
           fetchRequest.predicate = NSPredicate(format: "title == %@", title)
-
           do {
               let results = try context.fetch(fetchRequest)
               if let articleToDelete = results.first {
                   context.delete(articleToDelete)
                   try context.save()
-                  print("deleted correcttly new ")
-
                   return true
               }
           } catch {
