@@ -30,9 +30,19 @@ class ArticlesViewController: UIViewController {
         searchBar.backgroundImage = UIImage()
         searchBar.barTintColor = UIColor.clear 
 
-    viewModel = ArticlesViewModel()
-    bindViewModel()
-    viewModel.fetchArticles(for: .general)
+        datePicker.maximumDate = Date()
+        datePicker.date = Date()
+        
+        // Set the minimum date to October 1, 2024
+          let dateFormatter = DateFormatter()
+          dateFormatter.dateFormat = "yyyy-MM-dd"
+          if let minDate = dateFormatter.date(from: "2024-10-01") {
+              datePicker.minimumDate = minDate
+          }
+        
+        viewModel = ArticlesViewModel()
+        bindViewModel()
+        viewModel.fetchArticles(for: .general)
         }
 
         private func bindViewModel() {
@@ -113,16 +123,16 @@ class ArticlesViewController: UIViewController {
                 
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let article = viewModel.articles[indexPath.item]
+ 
+            if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController {
+                detailsVC.imageURL = article.urlToImage
+                detailsVC.titleText = article.title
+                detailsVC.descriptionText = article.content
+                detailsVC.authorNameText = article.author
+                detailsVC.modalPresentationStyle = .fullScreen                
+                present(detailsVC, animated: true, completion: nil)
+             }
             
-            let detailsVC = DetailsViewController()
-            
-            detailsVC.imageURL = article.urlToImage
-            detailsVC.titleText = article.title
-            detailsVC.descriptionText = article.content
-            detailsVC.authorNameText = article.author
-            
-            detailsVC.modalPresentationStyle = .fullScreen
-            present(detailsVC, animated: true, completion: nil)
         }
 
 }

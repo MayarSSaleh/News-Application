@@ -31,12 +31,12 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(article:Article){
-      
             let placeholderImageURL = "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
             image.kf.setImage(with: URL(string: article.urlToImage ?? placeholderImageURL))
             
             newsTitle.text = article.title
-            newsSubTitle.text = article.author ?? "no authour name found"
+        // for spaceing to avoid cut the word it self
+        newsSubTitle.text = "\u{00A0}\u{00A0}\u{00A0}\(article.author ?? "")\u{00A0}\u{00A0}\u{00A0} "
             newsDescrption.text = article.description
         
     }
