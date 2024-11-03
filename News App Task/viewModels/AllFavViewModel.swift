@@ -13,7 +13,7 @@ class AllFavoritesViewModel :AllFavoritesViewModelProtocol {
     private var articles: [Article] = []
     private let localDataSource: LocalDataSourceProtocol
       
-      init(localDataSource: LocalDataSourceProtocol = LocalDataSource()) {
+      init(localDataSource: LocalDataSourceProtocol) {
           self.localDataSource = localDataSource
       }
     

@@ -141,6 +141,7 @@
 				7DCC47DB2CD5707300E4E83F /* views */,
 				7DCC47DC2CD5707A00E4E83F /* viewModels */,
 				7DCC47E82CD5727100E4E83F /* services */,
+				7DCC47E92CD5728F00E4E83F /* dataBase */,
 				7DC1E1C82CD7868D00CA7B33 /* protocals */,
 				7DCC47EF2CD5734400E4E83F /* utilities */,
 				7DCC47C22CD56CCF00E4E83F /* AppDelegate.swift */,
@@ -185,8 +186,8 @@
 		7DCC47E82CD5727100E4E83F /* services */ = {
 			isa = PBXGroup;
 			children = (
-				7DCC47EA2CD572AC00E4E83F /* network */,
-				7DCC47E92CD5728F00E4E83F /* dataBase */,
+				7DCC47EB2CD572C200E4E83F /* NetworkManger.swift */,
+				7DC1E1D42CD7951000CA7B33 /* Constants.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -200,19 +201,10 @@
 			path = dataBase;
 			sourceTree = "<group>";
 		};
-		7DCC47EA2CD572AC00E4E83F /* network */ = {
-			isa = PBXGroup;
-			children = (
-				7DCC47EB2CD572C200E4E83F /* NetworkManger.swift */,
-			);
-			path = network;
-			sourceTree = "<group>";
-		};
 		7DCC47EF2CD5734400E4E83F /* utilities */ = {
 			isa = PBXGroup;
 			children = (
 				7D6597C52CD5D5D8004597D4 /* UtilityObjects.swift */,
-				7DC1E1D42CD7951000CA7B33 /* Constants.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";

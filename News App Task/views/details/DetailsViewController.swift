@@ -18,8 +18,8 @@ class DetailsViewController: UIViewController {
     
     private var isFavorite: Bool = false
  
-    private var addRemovFavViewModel: AddRemoveFavouriteNewsViewModelProtocol = FavouriteNewsViewModel(localDataSource: LocalDataSource())
-    private var allFavViewModel: AllFavoritesViewModelProtocol = AllFavoritesViewModel(localDataSource: LocalDataSource())
+    private var addRemovFavViewModel: AddRemoveFavouriteNewsViewModelProtocol = FavouriteNewsViewModel(localDataSource: LocalDataSource.shared)
+    private var allFavViewModel: AllFavoritesViewModelProtocol = AllFavoritesViewModel(localDataSource: LocalDataSource.shared)
 
     
 
@@ -54,10 +54,11 @@ class DetailsViewController: UIViewController {
         authorName.layer.cornerRadius = 10
         authorName.clipsToBounds = true
         
+        
         titleLabel.text = titleText
         descriptionLabel.text = descriptionText ?? ""
         // to make space before the word
-        authorName.text = "\u{00A0}\u{00A0}\u{00A0}\(authorNameText ?? "")\u{00A0}\u{00A0}\u{00A0} "
+        authorName.text = "\u{00A0}\u{00A0}\u{00A0}\(authorNameText ?? " unKnown")\u{00A0}\u{00A0}\u{00A0} "
         if let imageURL = imageURL, !imageURL.trimmingCharacters(in: .whitespaces).isEmpty {
             let url = URL(string: imageURL)
             imageView.kf.setImage(
@@ -111,18 +112,18 @@ class DetailsViewController: UIViewController {
     
     private func addToFav(){
         guard let title = titleText,
-              let description = descriptionText,
-              let author = authorNameText else {
+              let description = descriptionText else {
             showAlert(message: "Sorry error in data loading .Please try again")
             return
         }
-        let addStatus = self.addRemovFavViewModel.addToFav(title: title, imageURL: imageURL ?? "", description: description, author: author)
+        print(" description\(description)")
+        let addStatus = self.addRemovFavViewModel.addToFav(title: title, imageURL: imageURL ?? "", description: description, author: authorNameText ?? "unknown")
         if addStatus {
             isFavorite = true
             dismiss(animated: true) {
                 let alert = UIAlertController(title: self.titleText ?? "Added", message: "added to favorites successfully", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
-                    FavouriteNewsViewModel().removeFromFav(title: title)
+                    self.addRemovFavViewModel.removeFromFav(title: title)
                 }))
                  alert.addAction(UIAlertAction(title: "Ok",style: .default,handler: nil))
                 

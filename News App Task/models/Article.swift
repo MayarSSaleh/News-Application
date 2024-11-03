@@ -29,11 +29,10 @@ class Article: Decodable {
         self.init(
             author: entity.author,
             title: entity.title ?? "no title",
-            description: entity.description,
+            description: entity.articalDescription,
             url: "",
             urlToImage: entity.imageURL,
             publishedAt: "",
-            content: ""
-        )
+            content: "")
     }
 }

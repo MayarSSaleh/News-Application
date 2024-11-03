@@ -28,7 +28,7 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
     
     func configure(article:Article){
         newsTitle.text = article.title
-        newsSubTitle.text = "\u{00A0}\u{00A0}\(article.author ?? "")\u{00A0}"
+        newsSubTitle.text = "\u{00A0}\u{00A0}\(article.author ?? "unknown")\u{00A0}"
         newsDescrption.text = article.description
         let url = URL(string: article.urlToImage ?? "")
         image.kf.setImage(

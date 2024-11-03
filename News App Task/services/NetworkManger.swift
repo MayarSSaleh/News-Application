@@ -22,7 +22,6 @@ class NetworkManager : NetworkManagerProtocol {
         guard let url = createURL(from: urlString) else {
                    return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
                }
-        
         return URLSession.shared.dataTaskPublisher(for: url)
             .map { $0.data }
             .decode(type: ArticleResponse.self, decoder: JSONDecoder())

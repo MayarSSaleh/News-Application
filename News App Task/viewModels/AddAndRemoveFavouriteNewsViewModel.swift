@@ -11,7 +11,7 @@ import Foundation
 
 class FavouriteNewsViewModel: AddRemoveFavouriteNewsViewModelProtocol {    
      private let localDataSource: LocalDataSourceProtocol
-      init(localDataSource: LocalDataSourceProtocol = LocalDataSource()) {
+      init(localDataSource: LocalDataSourceProtocol) {
           self.localDataSource = localDataSource
       }
     

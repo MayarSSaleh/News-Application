@@ -8,8 +8,11 @@
 import Foundation
 import CoreData
 
-
 class LocalDataSource : LocalDataSourceProtocol{
+    
+    static let shared = LocalDataSource()
+    private init() {}
+     
     
      func fetchAllFavorites() -> [Article] {
         let context = UtilityObject.managedContext
@@ -37,14 +40,15 @@ class LocalDataSource : LocalDataSourceProtocol{
             }
         }
     
-    func addToFavorites(title:String,imageURL:String,description descrption:String,author:String) -> Bool {
+    func addToFavorites(title:String,imageURL:String,description articalDescription:String,author:String) -> Bool {
+        
             let context = UtilityObject.managedContext
             let entity = NSEntityDescription.entity(forEntityName: "ArticleEntity", in: context)!
             let newArtical = NSManagedObject(entity: entity, insertInto: context)
 
             newArtical.setValue(title, forKey: "title")
             newArtical.setValue(imageURL, forKey: "imageURL")
-            newArtical.setValue(descrption, forKey: "descrption")
+            newArtical.setValue(articalDescription, forKey: "articalDescription")
             newArtical.setValue(author, forKey: "author")
             do {
                 try context.save()
