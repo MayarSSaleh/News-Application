@@ -13,7 +13,7 @@ class ArticlesViewController: UIViewController {
     private var selectedDate : String?
     private var selectedTopic: String?
     private var searchTimer: Timer?
-    private var viewModel = FetchArticlesViewModel()
+    private var viewModel = FetchArticlesViewModel(networkService: NetworkManager.shared)
     private var cancellables = Set<AnyCancellable>()
 
     

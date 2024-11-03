@@ -7,22 +7,23 @@
 
 import Foundation
 
-protocol FavouriteNewsViewModelProtocol {
-    
-    func addToFav(title: String, imageURL: String?, description: String, author: String) -> Bool
-    func removeFromFav(title: String) -> Bool
-    
-}
 
 
-class FavouriteNewsViewModel: FavouriteNewsViewModelProtocol {
-        func addToFav(title: String, imageURL: String? = "", description: String, author: String) -> Bool {
-            return LocalDataSource.addToFav(title: title, imageURL: imageURL ?? "", descrption: description, author: author)
+class FavouriteNewsViewModel: AddRemoveFavouriteNewsViewModelProtocol {    
+     private let localDataSource: LocalDataSourceProtocol
+      init(localDataSource: LocalDataSourceProtocol = LocalDataSource()) {
+          self.localDataSource = localDataSource
+      }
+    
+    
+    func addToFav(title: String, imageURL: String? = "", description: String, author: String) -> Bool {
+            return localDataSource.addToFavorites(title: title, imageURL: imageURL ?? "", description: description, author: author)
         }
         
-        func removeFromFav(title: String) -> Bool {
-            return LocalDataSource.removeFromFav(title: title)
+    func removeFromFav(title: String) -> Bool {
+            return localDataSource.removeFromFavorites(title: title)
         }
-    }
+    
+}
 
 

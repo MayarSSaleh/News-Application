@@ -7,8 +7,16 @@
 
 import Foundation
 
-class FavoritesViewModel {
+
+class AllFavoritesViewModel :AllFavoritesViewModelProtocol {
+    
     private var articles: [Article] = []
+    private let localDataSource: LocalDataSourceProtocol
+      
+      init(localDataSource: LocalDataSourceProtocol = LocalDataSource()) {
+          self.localDataSource = localDataSource
+      }
+    
     
     var numberOfArticles: Int {
         return articles.count
@@ -19,10 +27,10 @@ class FavoritesViewModel {
     }
 
     func fetchFavorites() {
-        articles = LocalDataSource.fetchAllFavorites()
+        articles = localDataSource.fetchAllFavorites()
     }
     
-    static func isArticleFavorite(title: String) -> Bool{
-        return LocalDataSource.isArticleFavorite(title:title)
+    func isArticleFavorite(title: String) -> Bool{
+        return localDataSource.isArticleFavorite(title:title)
     }
 }

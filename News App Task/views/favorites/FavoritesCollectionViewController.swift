@@ -9,7 +9,7 @@ import UIKit
 
 class FavoritesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
    
-    private var viewModel = FavoritesViewModel()
+    private var viewModel = AllFavoritesViewModel()
    
     @IBOutlet weak var collectionView: UICollectionView!
     

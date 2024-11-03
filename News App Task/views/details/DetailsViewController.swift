@@ -17,8 +17,11 @@ class DetailsViewController: UIViewController {
     var authorNameText : String?
     
     private var isFavorite: Bool = false
-    private var favViewModel: FavouriteNewsViewModelProtocol = FavouriteNewsViewModel()
+ 
+    private var addRemovFavViewModel: AddRemoveFavouriteNewsViewModelProtocol = FavouriteNewsViewModel(localDataSource: LocalDataSource())
+    private var allFavViewModel: AllFavoritesViewModelProtocol = AllFavoritesViewModel(localDataSource: LocalDataSource())
 
+    
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -68,7 +71,7 @@ class DetailsViewController: UIViewController {
     }
     private func checkIfFavorite() {
         guard let title = titleText else { return }
-           isFavorite = FavoritesViewModel.isArticleFavorite(title: title)
+           isFavorite = allFavViewModel.isArticleFavorite(title: title)
            updateFavoriteButtonTitle()
        }
        
@@ -93,7 +96,7 @@ class DetailsViewController: UIViewController {
             title: "Yes",
             style: .destructive,
             handler: { _ in
-                let removeStatus = self.favViewModel.removeFromFav(title: title)
+                let removeStatus = self.addRemovFavViewModel.removeFromFav(title: title)
                 if removeStatus {
                     self.dismiss(animated: true, completion: nil)
                 } else {
@@ -113,7 +116,7 @@ class DetailsViewController: UIViewController {
             showAlert(message: "Sorry error in data loading .Please try again")
             return
         }
-        let addStatus = self.favViewModel.addToFav(title: title, imageURL: imageURL ?? "", description: description, author: author)
+        let addStatus = self.addRemovFavViewModel.addToFav(title: title, imageURL: imageURL ?? "", description: description, author: author)
         if addStatus {
             isFavorite = true
             dismiss(animated: true) {

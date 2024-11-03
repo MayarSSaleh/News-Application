@@ -8,9 +8,10 @@
 import Foundation
 import CoreData
 
-class LocalDataSource{
+
+class LocalDataSource : LocalDataSourceProtocol{
     
-    static func fetchAllFavorites() -> [Article] {
+     func fetchAllFavorites() -> [Article] {
         let context = UtilityObject.managedContext
         let fetchRequest: NSFetchRequest<ArticleEntity> = ArticleEntity.fetchRequest()
         do {
@@ -23,7 +24,7 @@ class LocalDataSource{
         }
     }
     
-   static func isArticleFavorite(title: String) -> Bool {
+    func isArticleFavorite(title: String) -> Bool {
             let context = UtilityObject.managedContext
             let fetchRequest: NSFetchRequest<ArticleEntity> = ArticleEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "title == %@", title)
@@ -36,7 +37,7 @@ class LocalDataSource{
             }
         }
     
-    static func addToFav(title:String,imageURL:String,descrption:String,author:String) -> Bool {
+    func addToFavorites(title:String,imageURL:String,description descrption:String,author:String) -> Bool {
             let context = UtilityObject.managedContext
             let entity = NSEntityDescription.entity(forEntityName: "ArticleEntity", in: context)!
             let newArtical = NSManagedObject(entity: entity, insertInto: context)
@@ -53,7 +54,7 @@ class LocalDataSource{
             }
     }
     
-    static func removeFromFav(title: String) -> Bool {
+     func removeFromFavorites(title: String) -> Bool {
           let context = UtilityObject.managedContext
           let fetchRequest: NSFetchRequest<ArticleEntity> = ArticleEntity.fetchRequest()
           fetchRequest.predicate = NSPredicate(format: "title == %@", title)

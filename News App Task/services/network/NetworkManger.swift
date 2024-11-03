@@ -8,15 +8,20 @@
 import Foundation
 import Combine
 
-class NetworkManager {
+class NetworkManager : NetworkManagerProtocol {
     
     static let shared = NetworkManager()
     private init() {}
-
-    func fetchArticles(from urlString: String) -> AnyPublisher<[Article], Error> {
-        guard let url = URL(string: urlString) else {
-            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
-        }
+        
+     private func createURL(from urlString: String) -> URL? {
+          return URL(string: urlString)
+      }
+    
+    
+     func fetchArticles(from urlString: String) -> AnyPublisher<[Article], Error> {
+        guard let url = createURL(from: urlString) else {
+                   return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
+               }
         
         return URLSession.shared.dataTaskPublisher(for: url)
             .map { $0.data }
@@ -24,6 +29,5 @@ class NetworkManager {
             .map { $0.articles }
             .eraseToAnyPublisher()
     }
-    
-    
+         
 }
