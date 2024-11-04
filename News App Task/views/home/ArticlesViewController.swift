@@ -15,7 +15,8 @@ class ArticlesViewController: UIViewController {
     private var searchTimer: Timer?
     private var viewModel = FetchArticlesViewModel(networkService: NetworkManager.shared)
     private var cancellables = Set<AnyCancellable>()
-
+    private var searchTextSubject = PassthroughSubject<String, Never>()
+   
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -34,6 +35,7 @@ class ArticlesViewController: UIViewController {
         searchBar.delegate = self
         setUp()
         bindViewModel()
+        setupSearchTextDebounce()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,7 +62,6 @@ class ArticlesViewController: UIViewController {
 
     private func bindViewModel() {
             viewModel.$articles
-                .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
                     self?.collectionView.reloadData()
                     self?.activityIndicator.stopAnimating()
@@ -68,7 +69,6 @@ class ArticlesViewController: UIViewController {
                 .store(in: &cancellables)
 
             viewModel.$isLoading
-                .receive(on: DispatchQueue.main)
                 .sink { [weak self] isLoading in
                     if isLoading {
                         self?.activityIndicator.startAnimating()
@@ -79,7 +79,6 @@ class ArticlesViewController: UIViewController {
                 .store(in: &cancellables)
 
             viewModel.$errorMessage
-                .receive(on: DispatchQueue.main)
                 .sink { [weak self] errorMessage in
                     if let message = errorMessage {
                         self?.showAlert(message: message)
@@ -87,7 +86,23 @@ class ArticlesViewController: UIViewController {
                 }
                 .store(in: &cancellables)
         }
-
+    
+    
+    private func setupSearchTextDebounce() {
+          searchTextSubject
+              .debounce(for: .seconds(2), scheduler: RunLoop.main)
+              .sink { [weak self] searchText in
+                  if !searchText.isEmpty {
+                      print("searchText in debounce\(searchText) ")
+                      self?.selectedTopic = searchText
+                      self?.viewModel.fetchArticlesByParameters(resultAbout: searchText, from: self?.selectedDate)
+                  } else {
+                      self?.viewModel.fetchArticlesByParameters()
+                  }
+              }
+              .store(in: &cancellables)
+      }
+      
         @IBAction func fetchByDate(_ sender: Any) {
             let userChooseDate = datePicker.date
             let dateFormatter = DateFormatter()
@@ -109,16 +124,7 @@ class ArticlesViewController: UIViewController {
 
 extension ArticlesViewController : UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        searchTimer?.invalidate()
-        searchTimer = Timer.scheduledTimer(withTimeInterval: 2.0 , repeats: false) { [weak self] _ in
-            if let searchText = searchBar.text, !searchText.isEmpty {
-                self?.selectedTopic = searchText
-                self?.viewModel.fetchArticlesByParameters(resultAbout: searchText, from: self?.selectedDate)
-            } else {
-                self?.viewModel.fetchArticlesByParameters()
-            }
-        }
+       searchTextSubject.send(searchText)
     }
 }
 
