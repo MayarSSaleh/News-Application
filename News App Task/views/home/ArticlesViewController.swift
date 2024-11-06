@@ -93,7 +93,6 @@ class ArticlesViewController: UIViewController {
               .debounce(for: .seconds(2), scheduler: RunLoop.main)
               .sink { [weak self] searchText in
                   if !searchText.isEmpty {
-                      print("searchText in debounce\(searchText) ")
                       self?.selectedTopic = searchText
                       self?.viewModel.fetchArticlesByParameters(resultAbout: searchText, from: self?.selectedDate)
                   } else {
@@ -151,8 +150,8 @@ extension ArticlesViewController: UICollectionViewDataSource , UICollectionViewD
                 
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let article = viewModel.articles[indexPath.item]
- 
-            if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController {
+
+                if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "ArticleDetailsViewController") as? ArticleDetailsViewController {
                 detailsVC.imageURL = article.urlToImage
                 detailsVC.titleText = article.title
                 detailsVC.descriptionText = article.description

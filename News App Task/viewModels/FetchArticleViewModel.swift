@@ -15,6 +15,10 @@ class FetchArticlesViewModel: FetchArticlesViewModelProtocol {
     @Published var errorMessage: String?
     
     private var cancellables = Set<AnyCancellable>()
+    /*
+     when cancellables isdeallocated ?
+      cancellables set is part of a view model that is instantiated in a view controller, when the view controller is deallocated (for example, when the user navigates away from the screen), the view model is also deallocated, and the cancellables set goes out of scope.so all subscriptions in it are canceled automatically.
+     */
     private var networkService: NetworkManagerProtocol
          
      init(networkService: NetworkManagerProtocol) {

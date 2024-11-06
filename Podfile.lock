@@ -1,20 +1,16 @@
 PODS:
-  - CombineCocoa (0.4.1)
   - Kingfisher (7.11.0)
 
 DEPENDENCIES:
-  - CombineCocoa
   - Kingfisher
 
 SPEC REPOS:
   trunk:
-    - CombineCocoa
     - Kingfisher
 
 SPEC CHECKSUMS:
-  CombineCocoa: e5210dbfb480ff251078929459ac17e750e7af1d
   Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
 
-PODFILE CHECKSUM: 1201c785907c2162ccc58d474b68e626ff0b29f5
+PODFILE CHECKSUM: bb325bde26a7584ae8bff06358b9cc830a8862ff
 
 COCOAPODS: 1.15.2

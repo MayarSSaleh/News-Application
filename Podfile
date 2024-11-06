@@ -6,7 +6,6 @@ target 'News App Task' do
   use_frameworks!
 
   # Pods for News App Task
-   pod 'CombineCocoa'
     pod 'Kingfisher'
 
 

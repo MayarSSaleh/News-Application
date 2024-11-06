@@ -59,7 +59,8 @@ class FavoritesViewController: UIViewController, UICollectionViewDelegate, UICol
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let article = viewModel.article(at: indexPath.item)
-        if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController {
+        if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "ArticleDetailsViewController") as? ArticleDetailsViewController {
+            
             detailsVC.imageURL = article.urlToImage
             detailsVC.titleText = article.title
             detailsVC.descriptionText = article.description
