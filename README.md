@@ -12,6 +12,7 @@ The app includes:
 ![filter by topic and date](https://github.com/user-attachments/assets/5094f783-b06e-4142-9eb9-689ffcd6e0b5)
 
 2- Details Screen: Shows detailed information about the selected article, with an option to save the article locally using Core Data.
+
 ![article details](https://github.com/user-attachments/assets/decf4db0-6f9b-4423-b27d-555c323a4486)
 ![artical added to favorites](https://github.com/user-attachments/assets/9b0d67a8-20d2-4797-af72-9c5e3a31910d)
 
