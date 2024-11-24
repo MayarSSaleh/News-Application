@@ -35,7 +35,6 @@ class ArticleDetailsViewController: UIViewController {
           
         override func viewDidLoad() {
             super.viewDidLoad()
-            print("titleText\(titleText ?? "no data") ")
             setupUI()
             checkIfFavorite()
 
@@ -50,7 +49,6 @@ class ArticleDetailsViewController: UIViewController {
         }
         
         private func setupUI() {
-            favButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
             favButton.layer.cornerRadius = 20
             imageView.layer.cornerRadius = 20
             myView.layer.cornerRadius = 20
@@ -83,10 +81,12 @@ class ArticleDetailsViewController: UIViewController {
            }
            
         private func updateFavoriteButtonTitle() {
-               let buttonTitle = isFavorite ? "Remove from Favorites" : "Add to Favorites"
-               favButton.setTitle(buttonTitle, for: .normal)
-           }
-           
+          
+        let iconName = isFavorite ? "heart.fill" : "heart"
+        let iconImage = UIImage(systemName: iconName) // Use SF Symbols
+        favButton.setImage(iconImage, for: .normal)
+    }
+
         
          func removeFromFav(){
             guard let title = titleText else {
@@ -122,21 +122,12 @@ class ArticleDetailsViewController: UIViewController {
                 showAlert(message: "Sorry error in data loading .Please try again")
                 return
             }
-            print(" description\(description)")
             let addStatus = self.addRemovFavViewModel.addToFav(title: title, imageURL: imageURL ?? "", description: description, author: authorNameText ?? "unknown")
             if addStatus {
                 isFavorite = true
-                dismiss(animated: true) {
-                    let alert = UIAlertController(title: self.titleText ?? "Added", message: "added to favorites successfully", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
-                        self.addRemovFavViewModel.removeFromFav(title: title)
-                    }))
-                     alert.addAction(UIAlertAction(title: "Ok",style: .default,handler: nil))
-                    
-                    if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
-                        rootVC.present(alert, animated: true, completion: nil)
-                    }
-                }
+                showCheckMarkAnimation(mark: "heart.fill")
+                updateFavoriteButtonTitle()
+
             } else {
                 showAlert(message: "Failed to add to favorites. Please try again.")
             }

@@ -28,16 +28,14 @@ class FetchArticlesViewModel {
      init(networkService: NetworkManagerProtocol) {
          self.networkService = networkService
      }
-   
-      
-        
-        private func constructURL(resultAbout: String?, from date: String?, page: Int) -> String {
+       
+    private func constructURL(resultAbout: String?, from date: String?, page: Int) -> String {
             let query = resultAbout ?? Constants.Default.query
             let fromDate = date ?? Constants.Default.date
             return "\(Constants.API.baseURL)?q=\(query)&from=\(fromDate)&sortBy=popularity&page=\(page)&pageSize=\(Constants.API.pageSize)&apiKey=\(Constants.API.apiKey)"
         }
         
-        private func fetchArticles(from urlString: String, append: Bool = false) {
+    private func fetchArticles(from urlString: String, append: Bool = false) {
             guard !isLastPage else { return } // Stop fetching if all pages are loaded
             
             isLoading = true
@@ -46,18 +44,26 @@ class FetchArticlesViewModel {
                 .sink(receiveCompletion: { [weak self] completion in
                     self?.isLoading = false
                     if case .failure(let error) = completion {
+                        print(" failurefailurefailurefailure")
                         self?.handleError(error)
                     }
                 }, receiveValue: { [weak self] articles in
                     guard let self = self else { return }
                     
                     if articles.isEmpty {
-                        self.isLastPage = true // Mark as last page if no articles are returned
+                        self.isLastPage = true
                     } else {
                         if append {
-                            self.articles.append(contentsOf: articles)
+                            self.articles.append(contentsOf: articles.filter { article in
+                                return article.title != "[Removed]"
+                            })
                         } else {
-                            self.articles = articles
+                            print("self.articles\(self.articles.count) ")
+
+                            self.articles = articles.filter { article in
+                                print(" article.\(article.title)")
+                                return article.title != "[Removed]"
+                            }
                         }
                     }
                 })
@@ -66,6 +72,7 @@ class FetchArticlesViewModel {
         
         func fetchArticlesByParameters(resultAbout: String? = nil, from date: String? = nil, append: Bool = false) {
             let urlString = constructURL(resultAbout: resultAbout, from: date, page: currentPage)
+            print("url\(urlString )")
             fetchArticles(from: urlString, append: append)
         }
         
