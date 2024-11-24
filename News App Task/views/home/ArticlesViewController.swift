@@ -164,13 +164,17 @@ extension ArticlesViewController: UICollectionViewDataSource , UICollectionViewD
              }
             
         }
- 
+ /*
+  The scrollViewDidScroll(_:) function is part of the UIScrollViewDelegate protocol, and it is automatically called whenever the user scrolls a UIScrollView or its subclasses (like UICollectionView or UITableView).
+  */
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let frameHeight = scrollView.frame.size.height
+        let offsetY = scrollView.contentOffset.y //This value indicates how far the content has been scrolled vertically.
+        let contentHeight = scrollView.contentSize.height //Represents the total height of the content inside the scroll view, including parts not currently visible.
         
-        if offsetY > contentHeight - frameHeight * 2 { // Trigger when close to bottom
+        let frameHeight = scrollView.frame.size.height //Represents the visible height of the scroll view
+        
+        if offsetY > contentHeight - frameHeight * 2{ // Trigger when close to bottom
             viewModel.loadMoreArticles(resultAbout: selectedTopic, from: selectedDate)
         }
     }

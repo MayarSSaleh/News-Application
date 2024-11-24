@@ -22,7 +22,6 @@ class FetchArticlesViewModel {
     
     private var currentPage = 1
     private var isLastPage = false // Indicates if all pages are fetched
-    private var pageSize = 10
     
     private var networkService: NetworkManagerProtocol
          
@@ -35,7 +34,7 @@ class FetchArticlesViewModel {
         private func constructURL(resultAbout: String?, from date: String?, page: Int) -> String {
             let query = resultAbout ?? Constants.Default.query
             let fromDate = date ?? Constants.Default.date
-            return "\(Constants.API.baseURL)?q=\(query)&from=\(fromDate)&sortBy=popularity&page=\(page)&pageSize=\(pageSize)&apiKey=\(Constants.API.apiKey)"
+            return "\(Constants.API.baseURL)?q=\(query)&from=\(fromDate)&sortBy=popularity&page=\(page)&pageSize=\(Constants.API.pageSize)&apiKey=\(Constants.API.apiKey)"
         }
         
         private func fetchArticles(from urlString: String, append: Bool = false) {
@@ -82,30 +81,6 @@ class FetchArticlesViewModel {
             articles = []
         }
     
-    
-//    private func constructURL(resultAbout: String? , from date: String?) -> String {
-//          let query = resultAbout ?? Constants.Default.query
-//          let fromDate = date ?? Constants.Default.date
-//          return "\(Constants.API.baseURL)?q=\(query)&from=\(fromDate)&sortBy=popularity&apiKey=\(Constants.API.apiKey)"
-//      }
-
-//      private func fetchArticles(from urlString: String) {
-//          isLoading = true
-//          networkService.fetchArticles(from: urlString)
-//              .receive(on: DispatchQueue.main)
-//              .sink(receiveCompletion: { [weak self] completion in
-//                  self?.isLoading = false
-//                  if case .failure(let error) = completion {
-//                      self?.handleError(error)
-//                  }
-//              }, receiveValue: { [weak self] articles in
-//                  self?.articles = articles.filter { article in
-//                      return article.title != "[Removed]"
-//                  }
-//              })
-//              .store(in: &cancellables)
-//      }
-    
     private func handleError(_ error: Error) {
             if let fetchError = error as? FetchError {
                 switch fetchError {
@@ -118,12 +93,6 @@ class FetchArticlesViewModel {
                 errorMessage = error.localizedDescription
             }
         }
-        
-    
-//      func fetchArticlesByParameters(resultAbout: String? = nil, from date: String? = nil) {
-//          let urlString = constructURL(resultAbout: resultAbout, from: date)
-//          fetchArticles(from: urlString)
-//      }
 }
 
 enum FetchError: Error {
