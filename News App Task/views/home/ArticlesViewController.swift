@@ -93,15 +93,17 @@ class ArticlesViewController: UIViewController {
               .debounce(for: .seconds(2), scheduler: RunLoop.main)
               .sink { [weak self] searchText in
                   if !searchText.isEmpty {
-                      self?.selectedTopic = searchText
-                      self?.viewModel.fetchArticlesByParameters(resultAbout: searchText, from: self?.selectedDate)
-                  } else {
-                      self?.viewModel.fetchArticlesByParameters()
+                          self?.selectedTopic = searchText
+                          self?.viewModel.resetPagination()
+                          self?.viewModel.fetchArticlesByParameters(resultAbout: searchText, from: self?.selectedDate)
+                      } else {
+                          self?.viewModel.resetPagination()
+                          self?.viewModel.fetchArticlesByParameters()
+                      }
                   }
-              }
               .store(in: &cancellables)
       }
-      
+    
         @IBAction func fetchByDate(_ sender: Any) {
             let userChooseDate = datePicker.date
             let dateFormatter = DateFormatter()
@@ -110,6 +112,7 @@ class ArticlesViewController: UIViewController {
             
             selectedDate = dateString
             
+            viewModel.resetPagination()
             viewModel.fetchArticlesByParameters(resultAbout: selectedTopic, from: dateString)
         }
 
@@ -161,6 +164,16 @@ extension ArticlesViewController: UICollectionViewDataSource , UICollectionViewD
              }
             
         }
-
+ 
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - frameHeight * 2 { // Trigger when close to bottom
+            viewModel.loadMoreArticles(resultAbout: selectedTopic, from: selectedDate)
+        }
+    }
 }
+
 
