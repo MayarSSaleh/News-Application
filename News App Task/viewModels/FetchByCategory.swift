@@ -57,7 +57,6 @@ class FetchByCategory {
                             })
                         } else {
                             self.articles = articles.filter { article in
-                                print(" article.\(article.title)")
                                 return article.title != "[Removed]"
                             }
                         }
@@ -68,7 +67,6 @@ class FetchByCategory {
     
     func fetchArticlesByCategory(category: String, append: Bool = false) {
         let urlString = constructURLForCategory(category: category, page: currentPage)
-        print("url fetchArticlesByCategory   \(urlString )")
         fetchArticles(from: urlString, append: append)
     }
     

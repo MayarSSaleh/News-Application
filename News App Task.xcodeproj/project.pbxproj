@@ -90,6 +90,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7DA7E94B2CF531BB00A82E02 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				7D0813D02CD5A07600593887 /* ArticleCellCollectionViewCell.swift */,
+				7D0813D12CD5A07600593887 /* ArticleCellCollectionViewCell.xib */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
 		7DB8410B2CF3BB10009BBC31 /* search */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +192,7 @@
 		7DCC47DB2CD5707300E4E83F /* views */ = {
 			isa = PBXGroup;
 			children = (
+				7DA7E94B2CF531BB00A82E02 /* common */,
 				7DB8410B2CF3BB10009BBC31 /* search */,
 				7DDA981F2CD6CB8E00D92AEA /* favorites */,
 				7DDA981D2CD6CB3700D92AEA /* home */,
@@ -236,8 +246,6 @@
 			isa = PBXGroup;
 			children = (
 				7DA7E9492CF4F18400A82E02 /* HomeViewController.swift */,
-				7D0813D02CD5A07600593887 /* ArticleCellCollectionViewCell.swift */,
-				7D0813D12CD5A07600593887 /* ArticleCellCollectionViewCell.xib */,
 			);
 			path = home;
 			sourceTree = "<group>";

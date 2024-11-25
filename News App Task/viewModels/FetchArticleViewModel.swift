@@ -59,7 +59,6 @@ class FetchArticlesViewModel {
                             })
                         } else {
                             self.articles = articles.filter { article in
-                                print(" article.\(article.title)")
                                 return article.title != "[Removed]"
                             }
                         }
@@ -70,7 +69,6 @@ class FetchArticlesViewModel {
         
     func fetchArticlesByParameters(resultAbout: String? = nil, from date: String? = nil, append: Bool = false) {
             let urlString = constructURL(resultAbout: resultAbout, from: date, page: currentPage)
-            print("url fetchArticlesByParameters \(urlString )")
             fetchArticles(from: urlString, append: append)
         }
         

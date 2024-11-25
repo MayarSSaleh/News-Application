@@ -69,8 +69,6 @@ class HomeViewController: UIViewController {
             selectedButton = sender
             
             if let category = sender.title(for: .normal) {
-                print("Selected category: \(category)")
-
                 viewModel.fetchArticlesByCategory(category: category)
             }
         }
@@ -78,7 +76,6 @@ class HomeViewController: UIViewController {
     private func bindViewModel() {
         viewModel.$articles
             .sink { [weak self] _ in
-                print("changed")
                 self?.mycollection.reloadData()
              //   self?.activityIndicator.stopAnimating()
             }
@@ -117,7 +114,6 @@ extension HomeViewController: UICollectionViewDataSource , UICollectionViewDeleg
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellCollectionViewCell", for: indexPath) as! ArticleCellCollectionViewCell
                 let article = viewModel.articles[indexPath.item]
-                print(" article in cell extension")
                cell.configure(article: article)
                 return cell
             }

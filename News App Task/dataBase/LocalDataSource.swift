@@ -22,7 +22,6 @@ class LocalDataSource : LocalDataSourceProtocol{
             let articles = results.map { Article(from: $0) }
             return articles
         } catch {
-            print("Failed to fetch articles: \(error.localizedDescription)")
             return []
         }
     }
@@ -70,7 +69,6 @@ class LocalDataSource : LocalDataSourceProtocol{
                   return true
               }
           } catch {
-              print("Failed to remove article: \(error.localizedDescription)")
           }
           return false
       }
