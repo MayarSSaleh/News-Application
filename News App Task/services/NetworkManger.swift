@@ -22,7 +22,7 @@ class NetworkManager : NetworkManagerProtocol {
         guard let url = createURL(from: urlString) else {
                    return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
                }
-         print(" url\(url)")
+         print(" url in network manger \(url)")
         return URLSession.shared.dataTaskPublisher(for: url)
             .map { $0.data }
          /* The publisher outputs a tuple containing the downloaded data and response. here map extracting the data from the tuple.

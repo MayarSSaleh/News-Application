@@ -62,7 +62,7 @@ class ArticleDetailsViewController: UIViewController {
             titleLabel.text = titleText
             descriptionLabel.text = descriptionText ?? ""
             // to make space before the word
-            authorName.text = "\u{00A0}\u{00A0}\u{00A0}\(authorNameText ?? " unKnown")\u{00A0}\u{00A0}\u{00A0} "
+            authorName.text = "\u{00A0}\u{00A0}\u{00A0}\(authorNameText ?? " unKnown") "
             if let imageURL = imageURL, !imageURL.trimmingCharacters(in: .whitespaces).isEmpty {
                 let url = URL(string: imageURL)
                 imageView.kf.setImage(
@@ -80,9 +80,9 @@ class ArticleDetailsViewController: UIViewController {
                updateFavoriteButtonTitle()
            }
            
+    
         private func updateFavoriteButtonTitle() {
-          
-        let iconName = isFavorite ? "heart.fill" : "heart"
+        let iconName = isFavorite ? "square.and.arrow.down.fill" : "square.and.arrow.down"
         let iconImage = UIImage(systemName: iconName) // Use SF Symbols
         favButton.setImage(iconImage, for: .normal)
     }

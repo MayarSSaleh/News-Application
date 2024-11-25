@@ -1,43 +1,41 @@
 //
-//  ArticleViewModel.swift
+//  FetchByCategory.swift
 //  News App Task
 //
-//  Created by mayar on 01/11/2024.
+//  Created by mayar on 24/11/2024.
 //
 
 import Foundation
 import Combine
 
-class FetchArticlesViewModel {
+class FetchByCategory {
     
     @Published var articles: [Article] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    var categories = data.categories
+
+    private var selectedCategory = "general"
     
     private var cancellables = Set<AnyCancellable>()
-    /*
-     when cancellables isdeallocated ?
-      cancellables set is part of a view model that is instantiated in a view controller, when the view controller is deallocated (for example, when the user navigates away from the screen), the view model is also deallocated, and the cancellables set goes out of scope.so all subscriptions in it are canceled automatically.
-     */
-    
     private var currentPage = 1
-    private var isLastPage = false // Indicates if all pages are fetched
+    private var isLastPage = false
     
     private var networkService: NetworkManagerProtocol
          
      init(networkService: NetworkManagerProtocol) {
          self.networkService = networkService
      }
-       
-    private func constructURL(resultAbout: String?, from date: String?, page: Int) -> String {
-            let query = resultAbout ?? Constants.Default.query
-            let fromDate = date ?? Constants.Default.date
-            return "\(Constants.API.baseURL)?q=\(query)&from=\(fromDate)&sortBy=popularity&page=\(page)&pageSize=\(Constants.API.pageSize)&apiKey=\(Constants.API.apiKey)"
+//https:newsapi.org/v2/top-headlines?category=general&apiKey=20c2eab9e362409fa8c33473d8b7c86e
+
+    private func constructURLForCategory(category: String, page: Int) -> String {
+        selectedCategory = category.lowercased()
+        return "\(Constants.API.baseURLForCategory)\(selectedCategory)&apiKey=\(Constants.API.apiKey)"
         }
-    
+//https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=20c2eab9e362409fa8c33473d8b7c86e
     
     private func fetchArticles(from urlString: String, append: Bool = false) {
-            guard !isLastPage else { return } // Stop fetching if all pages are loaded
+            guard !isLastPage else { return }
             
             isLoading = true
             networkService.fetchArticles(from: urlString)
@@ -67,18 +65,17 @@ class FetchArticlesViewModel {
                 })
                 .store(in: &cancellables)
         }
-        
-    func fetchArticlesByParameters(resultAbout: String? = nil, from date: String? = nil, append: Bool = false) {
-            let urlString = constructURL(resultAbout: resultAbout, from: date, page: currentPage)
-            print("url fetchArticlesByParameters \(urlString )")
-            fetchArticles(from: urlString, append: append)
-        }
-        
+    
+    func fetchArticlesByCategory(category: String, append: Bool = false) {
+        let urlString = constructURLForCategory(category: category, page: currentPage)
+        print("url fetchArticlesByCategory   \(urlString )")
+        fetchArticles(from: urlString, append: append)
+    }
+    
     func loadMoreArticles(resultAbout: String?, from date: String?) {
-            guard !isLoading else { return } // Avoid multiple calls at the same time
+            guard !isLoading else { return }
             currentPage += 1
-            fetchArticlesByParameters(resultAbout: resultAbout, from: date, append: true)
-        
+        fetchArticlesByCategory(category: selectedCategory,append: true )
      }
         
     func resetPagination() {
