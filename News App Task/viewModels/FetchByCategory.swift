@@ -72,7 +72,7 @@ class FetchByCategory {
         fetchArticles(from: urlString, append: append)
     }
     
-    func loadMoreArticles(resultAbout: String?, from date: String?) {
+    func loadMoreArticles(resultAbout: String?) {
             guard !isLoading else { return }
             currentPage += 1
         fetchArticlesByCategory(category: selectedCategory,append: true )
