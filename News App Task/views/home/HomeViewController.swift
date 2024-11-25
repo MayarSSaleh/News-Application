@@ -110,11 +110,11 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
-            func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
                 return viewModel.articles.count
             }
 
-            func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellCollectionViewCell", for: indexPath) as! ArticleCellCollectionViewCell
                 let article = viewModel.articles[indexPath.item]
                 print(" article in cell extension")
@@ -122,24 +122,25 @@ extension HomeViewController: UICollectionViewDataSource , UICollectionViewDeleg
                 return cell
             }
             
-//            func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//                let width = (collectionView.frame.width / 2) - 10
-//                let height = (collectionView.frame.height / 2) - 10
-//                return CGSize(width: width, height: height)
-//            }
-            func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+                let width = (collectionView.frame.width / 2) - 10
+                let height = (collectionView.frame.height / 2.2) - 10
+                return CGSize(width: width, height: height)
+            }
+    
+    
+      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
                 let article = viewModel.articles[indexPath.item]
-
-                    if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "ArticleDetailsViewController") as? ArticleDetailsViewController {
+                if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "ArticleDetailsViewController") as? ArticleDetailsViewController {
                     detailsVC.imageURL = article.urlToImage
                     detailsVC.titleText = article.title
                     detailsVC.descriptionText = article.description
                     detailsVC.authorNameText = article.author
-                    detailsVC.modalPresentationStyle = .fullScreen
-                    present(detailsVC, animated: true, completion: nil)
-                 }
-                
+                    navigationController?.pushViewController(detailsVC, animated: true)
+                }
             }
+    
+    
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let offsetY = scrollView.contentOffset.y
             let contentHeight = scrollView.contentSize.height
