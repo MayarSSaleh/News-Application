@@ -14,7 +14,8 @@
 		7D0813D32CD5A07600593887 /* ArticleCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D0813D12CD5A07600593887 /* ArticleCellCollectionViewCell.xib */; };
 		7D6597C62CD5D5D8004597D4 /* UtilityObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6597C52CD5D5D8004597D4 /* UtilityObjects.swift */; };
 		7DA3368D2CDADCFA00E10929 /* ArticleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3368C2CDADCFA00E10929 /* ArticleDetailsViewController.swift */; };
-		7DA7E94A2CF4F18400A82E02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA7E9492CF4F18400A82E02 /* HomeViewController.swift */; };
+		7DA7E94A2CF4F18400A82E02 /* otherTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA7E9492CF4F18400A82E02 /* otherTopicsViewController.swift */; };
+		7DA7E94E2CF5405D00A82E02 /* ScienceViewControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA7E94D2CF5405D00A82E02 /* ScienceViewControl.swift */; };
 		7DB2B9B42CD67F8B007727D1 /* FavoritesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB2B9B32CD67F8B007727D1 /* FavoritesCollectionViewController.swift */; };
 		7DB2B9B62CD68046007727D1 /* AllFavViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB2B9B52CD68046007727D1 /* AllFavViewModel.swift */; };
 		7DB2F9AE2CF3DDD40013CE24 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB2F9AD2CF3DDD40013CE24 /* Category.swift */; };
@@ -50,7 +51,8 @@
 		7D0813D12CD5A07600593887 /* ArticleCellCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleCellCollectionViewCell.xib; sourceTree = "<group>"; };
 		7D6597C52CD5D5D8004597D4 /* UtilityObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityObjects.swift; sourceTree = "<group>"; };
 		7DA3368C2CDADCFA00E10929 /* ArticleDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailsViewController.swift; sourceTree = "<group>"; };
-		7DA7E9492CF4F18400A82E02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		7DA7E9492CF4F18400A82E02 /* otherTopicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = otherTopicsViewController.swift; sourceTree = "<group>"; };
+		7DA7E94D2CF5405D00A82E02 /* ScienceViewControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceViewControl.swift; sourceTree = "<group>"; };
 		7DB2B9B32CD67F8B007727D1 /* FavoritesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCollectionViewController.swift; sourceTree = "<group>"; };
 		7DB2B9B52CD68046007727D1 /* AllFavViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavViewModel.swift; sourceTree = "<group>"; };
 		7DB2F9AD2CF3DDD40013CE24 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -97,6 +99,14 @@
 				7D0813D12CD5A07600593887 /* ArticleCellCollectionViewCell.xib */,
 			);
 			path = common;
+			sourceTree = "<group>";
+		};
+		7DA7E94C2CF5404600A82E02 /* sciHome */ = {
+			isa = PBXGroup;
+			children = (
+				7DA7E94D2CF5405D00A82E02 /* ScienceViewControl.swift */,
+			);
+			path = sciHome;
 			sourceTree = "<group>";
 		};
 		7DB8410B2CF3BB10009BBC31 /* search */ = {
@@ -192,10 +202,11 @@
 		7DCC47DB2CD5707300E4E83F /* views */ = {
 			isa = PBXGroup;
 			children = (
+				7DA7E94C2CF5404600A82E02 /* sciHome */,
 				7DA7E94B2CF531BB00A82E02 /* common */,
 				7DB8410B2CF3BB10009BBC31 /* search */,
 				7DDA981F2CD6CB8E00D92AEA /* favorites */,
-				7DDA981D2CD6CB3700D92AEA /* home */,
+				7DDA981D2CD6CB3700D92AEA /* otherTopics */,
 				7DDA981E2CD6CB6A00D92AEA /* details */,
 				7DCC47C82CD56CCF00E4E83F /* Main.storyboard */,
 				7DCC47D02CD56CD100E4E83F /* LaunchScreen.storyboard */,
@@ -242,12 +253,12 @@
 			path = utilities;
 			sourceTree = "<group>";
 		};
-		7DDA981D2CD6CB3700D92AEA /* home */ = {
+		7DDA981D2CD6CB3700D92AEA /* otherTopics */ = {
 			isa = PBXGroup;
 			children = (
-				7DA7E9492CF4F18400A82E02 /* HomeViewController.swift */,
+				7DA7E9492CF4F18400A82E02 /* otherTopicsViewController.swift */,
 			);
-			path = home;
+			path = otherTopics;
 			sourceTree = "<group>";
 		};
 		7DDA981E2CD6CB6A00D92AEA /* details */ = {
@@ -399,12 +410,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DA7E94E2CF5405D00A82E02 /* ScienceViewControl.swift in Sources */,
 				7DB8410A2CF3AF05009BBC31 /* Animation.swift in Sources */,
 				7DC1E1CA2CD786A300CA7B33 /* LocalDataSourceProtocol.swift in Sources */,
 				7DB2B9B42CD67F8B007727D1 /* FavoritesCollectionViewController.swift in Sources */,
 				7D6597C62CD5D5D8004597D4 /* UtilityObjects.swift in Sources */,
 				7DB2F9B62CF3FC3E0013CE24 /* ErrorHandling.swift in Sources */,
-				7DA7E94A2CF4F18400A82E02 /* HomeViewController.swift in Sources */,
+				7DA7E94A2CF4F18400A82E02 /* otherTopicsViewController.swift in Sources */,
 				7DB2B9B62CD68046007727D1 /* AllFavViewModel.swift in Sources */,
 				7DC1E1CC2CD7870300CA7B33 /* AddAndRemoveFavouriteNewsViewModelProtocol.swift in Sources */,
 				7DDA981C2CD6CAFA00D92AEA /* ArticleResponse.swift in Sources */,
@@ -579,6 +591,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "News App Task/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SciencePulse\n* Networking: Uses URLSession to fetch articles from the News API.\n* Local Persistence: Uses Core Data to save and retrieve favorite articles.\n* User Interface: Built with UIKit and Nib files for the UI layout.\n";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -607,6 +620,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "News App Task/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SciencePulse\n* Networking: Uses URLSession to fetch articles from the News API.\n* Local Persistence: Uses Core Data to save and retrieve favorite articles.\n* User Interface: Built with UIKit and Nib files for the UI layout.\n";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

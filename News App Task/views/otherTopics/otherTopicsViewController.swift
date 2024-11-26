@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class HomeViewController: UIViewController {
+class OtherTopicsViewController: UIViewController {
     
     @IBOutlet weak var mycollection: UICollectionView!
     @IBOutlet weak var categoriesStack: UIStackView!
@@ -106,7 +106,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+extension OtherTopicsViewController: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
                 return viewModel.articles.count
             }
