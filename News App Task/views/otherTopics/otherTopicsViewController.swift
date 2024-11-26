@@ -29,6 +29,8 @@ class OtherTopicsViewController: UIViewController {
        }
 
     private func setUp(){
+        scrollView.showsHorizontalScrollIndicator = false
+
         let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
         mycollection.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
         mycollection.layer.cornerRadius = 10
