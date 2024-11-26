@@ -7,6 +7,8 @@
 
 import UIKit
 import Combine
+import Lottie
+
 
 class SearchViewController: UIViewController {
      
@@ -16,7 +18,10 @@ class SearchViewController: UIViewController {
         private var viewModel = FetchArticlesViewModel(networkService: NetworkManager.shared)
         private var cancellables = Set<AnyCancellable>()
         private var searchTextSubject = PassthroughSubject<String, Never>()
-       
+   
+    
+        private var lottieAnimationView: LottieAnimationView?
+
         
         @IBOutlet weak var collectionView: UICollectionView!
         @IBOutlet weak var datePicker: UIDatePicker!
@@ -48,27 +53,43 @@ class SearchViewController: UIViewController {
             
                 let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
             collectionView.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
+            
+            //lottie
+                lottieAnimationView = LottieAnimationView(name: "searchAnimation")
+            lottieAnimationView?.frame = collectionView.frame
+                lottieAnimationView?.contentMode = .scaleAspectFit
+                lottieAnimationView?.loopMode = .loop
+                lottieAnimationView?.isHidden = true
+                view.addSubview(lottieAnimationView!)
         }
 
 
         private func bindViewModel() {
                 viewModel.$articles
-                    .sink { [weak self] _ in
-                        print(" $articles are changed ")
+                    .sink { [weak self] articles in
+                        guard let self = self else { return }
 
-                        self?.collectionView.reloadData()
-                        self?.activityIndicator.stopAnimating()
+                        print(" $articles are changed ")
+                        if articles.isEmpty {
+                                    self.collectionView.isHidden = true
+                                    self.lottieAnimationView?.isHidden = false
+                                    self.lottieAnimationView?.play()
+                                } else {
+                                    self.collectionView.isHidden = false
+                                    self.lottieAnimationView?.isHidden = true
+                                    self.lottieAnimationView?.stop()
+                                }
+
+                                self.collectionView.reloadData()
+                                self.activityIndicator.stopAnimating()
                     }
                     .store(in: &cancellables)
 
                 viewModel.$isLoading
                     .sink { [weak self] isLoading in
                         if isLoading {
-                            print(" is loading ")
                             self?.activityIndicator.startAnimating()
                         } else {
-                            print(" is  not loading ")
-
                             self?.activityIndicator.stopAnimating()
                         }
                     }
@@ -95,7 +116,7 @@ class SearchViewController: UIViewController {
                               self?.viewModel.fetchArticlesByParameters(resultAbout: searchText, from: self?.selectedDate)
                           } else {
                               self?.viewModel.resetPagination()
-                              self?.viewModel.fetchArticlesByParameters()
+                            //  self?.viewModel.fetchArticlesByParameters()
                           }
                       }
                   .store(in: &cancellables)

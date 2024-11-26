@@ -33,9 +33,18 @@ class ArticleCellCollectionViewCell: UICollectionViewCell {
         let url = URL(string: article.urlToImage ?? "")
         image.kf.setImage(
             with: url,
-            placeholder: UIImage(named: "no-image"),
-            options: [.transition(.fade(0.3))]
+            placeholder: UIImage(named: "loading-image"),
+            options: [.transition(.fade(0.3))],
+            completionHandler: { result in
+                switch result {
+                case .success:
+                    print("Image successfully loaded")
+                case .failure:
+                    self.image.image = UIImage(named: "not-found-image")
+                }
+            }
         )
+
     }
 
 }

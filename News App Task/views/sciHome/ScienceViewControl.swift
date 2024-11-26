@@ -79,7 +79,7 @@ class ScienceViewControl: UIViewController {
                 
          func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
                     let width = (collectionView.frame.width / 2) - 10
-                    let height = (collectionView.frame.height / 2.2) - 10
+                    let height = (collectionView.frame.height / 2.5) - 10
                     return CGSize(width: width, height: height)
                 }
         
