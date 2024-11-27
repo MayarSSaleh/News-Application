@@ -78,14 +78,6 @@ class ScienceViewControl: NetworkBaseViewController {
                     }
                 }
                 .store(in: &cancellables)
-    
-            viewModel.$errorMessage
-                .sink { [weak self] errorMessage in
-                    if let message = errorMessage {
-                        self?.showAlert()
-                    }
-                }
-                .store(in: &cancellables)
         }
     }
 
