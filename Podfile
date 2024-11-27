@@ -7,9 +7,7 @@ target 'News App Task' do
 
   # Pods for News App Task
     pod 'Kingfisher'
-    
     pod 'lottie-ios'
-
-
+    pod 'ReachabilitySwift'
 
 end

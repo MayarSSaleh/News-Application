@@ -7,19 +7,23 @@
 
 import UIKit
 import Combine
+import Lottie
 
-class OtherTopicsViewController: UIViewController {
+class OtherTopicsViewController: NetworkBaseViewController {
     
     @IBOutlet weak var mycollection: UICollectionView!
     @IBOutlet weak var categoriesStack: UIStackView!
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    let animationView = LottieAnimationView(name: "offline")
 
     private var viewModel = FetchByCategory(networkService: NetworkManager.shared)
     private var selectedTopic: String?
     private var cancellables = Set<AnyCancellable>()
     private var buttons: [UIButton] = []
     private var selectedButton: UIButton?
-    
+    private  let activityIndicator = UIActivityIndicatorView(style: .large)
+
     override func viewDidLoad() {
         super.viewDidLoad()
           addCategories()
@@ -30,14 +34,29 @@ class OtherTopicsViewController: UIViewController {
 
     private func setUp(){
         scrollView.showsHorizontalScrollIndicator = false
-
         let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
         mycollection.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
         mycollection.layer.cornerRadius = 10
     }
     
+    
+    override func handleNoNetwork() {
+        if viewModel.articles.isEmpty {
+            print("handleNoNetwork in categories ")
+            playLottieAnimation(animationView: animationView)
+        }
+        self.showAlert()
+    }
+   
+  override func handleNetworkAvailable() {
+      animationView.stop()
+      animationView.removeFromSuperview()
+      viewModel.fetchArticlesByCategory(category: selectedTopic ?? "general")
+   }
+  
+    
    private func addCategories() {
-        var categories: [String] = viewModel.categories
+       let categories: [String] = viewModel.categories
 
            categoriesStack.spacing = 17
            categoriesStack.distribution = .equalSpacing
@@ -83,29 +102,25 @@ class OtherTopicsViewController: UIViewController {
             }
             .store(in: &cancellables)
         
-//        viewModel.$isLoading
-//            .sink { [weak self] isLoading in
-//                if isLoading {
-//                  self?.activityIndicator.startAnimating()
-//                } else {
-//                   self?.activityIndicator.stopAnimating()
-//                }
-//            }
-//            .store(in: &cancellables)
-//        
+        viewModel.$isLoading
+            .sink { [weak self] isLoading in
+                if isLoading {
+                  self?.activityIndicator.startAnimating()
+                } else {
+                   self?.activityIndicator.stopAnimating()
+                }
+            }
+            .store(in: &cancellables)
+        
         viewModel.$errorMessage
             .sink { [weak self] errorMessage in
                 if let message = errorMessage {
-                    self?.showAlert(message: message)
+                    self?.showAlert()
                 }
             }
             .store(in: &cancellables)
     }
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true, completion: nil)
-    }
+   
 }
 
 extension OtherTopicsViewController: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
@@ -122,7 +137,7 @@ extension OtherTopicsViewController: UICollectionViewDataSource , UICollectionVi
             
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
                 let width = (collectionView.frame.width / 2) - 10
-                let height = (collectionView.frame.height / 2.2) - 10
+                let height = (collectionView.frame.height / 2.1) - 10
                 return CGSize(width: width, height: height)
             }
     

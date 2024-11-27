@@ -25,6 +25,20 @@
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
+		<key>ReachabilitySwift-ReachabilitySwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>ReachabilitySwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 		<key>lottie-ios-LottiePrivacyInfo.xcscheme</key>
 		<dict>
 			<key>isShown</key>

@@ -6,61 +6,63 @@
 //
 
 import Foundation
-import Network
 import Combine
+import Reachability
 
 class NetworkMonitor {
-    static let shared = NetworkMonitor()
-    
-    private(set) var networkStatusPublisher = PassthroughSubject<Bool, Never>()
-    
-    private let monitor = NWPathMonitor()
-    private let queue = DispatchQueue.global(qos: .background)
-    
-    private(set) var isConnected: Bool = false {
-        didSet {
-            networkStatusPublisher.send(isConnected)
-        }
-    }
-    
-    private init() {
-        startMonitoring()
-    }
-    
-    deinit {
-        stopMonitoring()
-    }
-    
-    // Start monitoring network status
-    private func startMonitoring() {
-        monitor.pathUpdateHandler = { [weak self] path in
-            guard let self = self else { return }
-            let connected = path.status == .satisfied
-            DispatchQueue.main.async {
-                self.isConnected = connected
+
+        static let shared = NetworkMonitor()
+
+        private(set) var networkStatusPublisher = PassthroughSubject<Bool, Never>()
+        
+        private var reachability: Reachability?
+        private(set) var isConnected: Bool = false {
+            didSet {
+                print("Network status updated: \(isConnected)")
+                networkStatusPublisher.send(isConnected)
             }
         }
-        monitor.start(queue: queue)
-    }
-    
-    // Stop monitoring network status
-    func stopMonitoring() {
-        monitor.cancel()
-    }
-}
 
-//import Combine
+        private init() {
+            setupReachability()
+              startMonitoring()
+        }
 
-class ViewModel {
-    private var cancellables = Set<AnyCancellable>()
-    
-    init() {
-        // Subscribe to network status changes
-        NetworkMonitor.shared.networkStatusPublisher
-            .sink { isConnected in
-                print("Network is \(isConnected ? "connected" : "disconnected")")
+        deinit {
+            stopMonitoring()
+        }
+
+        private func setupReachability() {
+            do {
+                reachability = try Reachability()
+            } catch {
+                print("Unable to start Reachability: \(error.localizedDescription)")
             }
-            .store(in: &cancellables)
-    }
-}
+        }
 
+        func startMonitoring() {
+            reachability?.whenReachable = { [weak self] reachability in
+                self?.updateConnectionStatus(isConnected: true)
+            }
+
+            reachability?.whenUnreachable = { [weak self] _ in
+                self?.updateConnectionStatus(isConnected: false)
+            }
+
+            do {
+                try reachability?.startNotifier()
+            } catch {
+                print("Error starting Reachability notifier: \(error.localizedDescription)")
+            }
+        }
+
+        func stopMonitoring() {
+            reachability?.stopNotifier()
+        }
+
+        private func updateConnectionStatus(isConnected: Bool) {
+            DispatchQueue.main.async { [weak self] in
+                self?.isConnected = isConnected
+            }
+        }
+    }

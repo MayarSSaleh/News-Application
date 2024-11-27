@@ -7,10 +7,13 @@
 
 import UIKit
 import Combine
+import Lottie
 
-class ScienceViewControl: UIViewController {
+class ScienceViewControl: NetworkBaseViewController {
 
-        @IBOutlet weak var mycollection: UICollectionView!
+    @IBOutlet weak var mycollection: UICollectionView!
+    private  let activityIndicator = UIActivityIndicatorView(style: .large)
+    let animationView = LottieAnimationView(name: "offline")
 
         private var viewModel = FetchByCategory(networkService: NetworkManager.shared)
         private var cancellables = Set<AnyCancellable>()
@@ -22,46 +25,67 @@ class ScienceViewControl: UIViewController {
            }
         override func viewWillAppear(_ animated: Bool) {
             viewModel.fetchArticlesByCategory(category: "science")
-
         }
 
         private func setUp(){
             let nibCell = UINib(nibName: "ArticleCellCollectionViewCell", bundle: nil)
             mycollection.register(nibCell, forCellWithReuseIdentifier: "ArticleCellCollectionViewCell")
             mycollection.layer.cornerRadius = 10
+            
+                   activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+                   view.addSubview(activityIndicator)
+
+                   NSLayoutConstraint.activate([
+                       activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                       activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+                   ])
         }
-        
-        
-        private func bindViewModel() {
+   
+     override func handleNoNetwork() {
+         if viewModel.articles.isEmpty {
+             print(" is empty ")
+             playLottieAnimation(animationView: animationView)
+         }else {
+             print(" is not empty ")
+
+         }
+         self.activityIndicator.stopAnimating()
+         self.showAlert()
+     }
+    
+   override func handleNetworkAvailable() {
+       animationView.stop()
+       animationView.removeFromSuperview()
+       print(" handleNetworkAvailable")
+    viewModel.fetchArticlesByCategory(category: "science")
+    }
+   
+    
+    private func bindViewModel() {
             viewModel.$articles
                 .sink { [weak self] _ in
                     self?.mycollection.reloadData()
-                 //   self?.activityIndicator.stopAnimating()
+                    self?.activityIndicator.stopAnimating()
                 }
                 .store(in: &cancellables)
             
-    //        viewModel.$isLoading
-    //            .sink { [weak self] isLoading in
-    //                if isLoading {
-    //                  self?.activityIndicator.startAnimating()
-    //                } else {
-    //                   self?.activityIndicator.stopAnimating()
-    //                }
-    //            }
-    //            .store(in: &cancellables)
-    //
-            viewModel.$errorMessage
-                .sink { [weak self] errorMessage in
-                    if let message = errorMessage {
-                        self?.showAlert(message: message)
+            viewModel.$isLoading
+                .sink { [weak self] isLoading in
+                    if isLoading {
+                      self?.activityIndicator.startAnimating()
+                    } else {
+                       self?.activityIndicator.stopAnimating()
                     }
                 }
                 .store(in: &cancellables)
-        }
-        private func showAlert(message: String) {
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            present(alert, animated: true, completion: nil)
+    
+            viewModel.$errorMessage
+                .sink { [weak self] errorMessage in
+                    if let message = errorMessage {
+                        self?.showAlert()
+                    }
+                }
+                .store(in: &cancellables)
         }
     }
 
@@ -78,8 +102,8 @@ class ScienceViewControl: UIViewController {
                 }
                 
          func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-                    let width = (collectionView.frame.width / 2) - 10
-                    let height = (collectionView.frame.height / 2.5) - 10
+                    let width = (collectionView.frame.width / 2) - 7
+                    let height = (collectionView.frame.height / 2.3) - 10
                     return CGSize(width: width, height: height)
                 }
         

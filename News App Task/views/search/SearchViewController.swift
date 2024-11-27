@@ -10,7 +10,7 @@ import Combine
 import Lottie
 
 
-class SearchViewController: UIViewController {
+class SearchViewController: NetworkBaseViewController {
      
         private var selectedDate : String?
         private var selectedTopic: String?
@@ -21,8 +21,8 @@ class SearchViewController: UIViewController {
    
     
         private var lottieAnimationView: LottieAnimationView?
+       let offlinelottie = LottieAnimationView(name: "offline")
 
-        
         @IBOutlet weak var collectionView: UICollectionView!
         @IBOutlet weak var datePicker: UIDatePicker!
         @IBOutlet weak var searchBar: UISearchBar!
@@ -37,7 +37,22 @@ class SearchViewController: UIViewController {
             setupSearchTextDebounce()
         }
         
-        
+    override func handleNoNetwork() {
+        if viewModel.articles.isEmpty {
+            lottieAnimationView?.stop()
+            playLottieAnimation(animationView: offlinelottie)
+            searchBar.isUserInteractionEnabled = false
+        }
+        self.activityIndicator.stopAnimating()
+        self.showAlert()
+    }
+   
+  override func handleNetworkAvailable() {
+      offlinelottie.stop()
+      offlinelottie.removeFromSuperview()
+      searchBar.isUserInteractionEnabled = true
+   }
+  
         private func setUp(){
             searchBar.backgroundImage = UIImage()
             searchBar.barTintColor = UIColor.clear
@@ -61,6 +76,14 @@ class SearchViewController: UIViewController {
                 lottieAnimationView?.loopMode = .loop
                 lottieAnimationView?.isHidden = true
                 view.addSubview(lottieAnimationView!)
+            
+                   activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+                   view.addSubview(activityIndicator)
+
+                   NSLayoutConstraint.activate([
+                       activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                       activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+                   ])
         }
 
 
@@ -95,13 +118,13 @@ class SearchViewController: UIViewController {
                     }
                     .store(in: &cancellables)
 
-                viewModel.$errorMessage
-                    .sink { [weak self] errorMessage in
-                        if let message = errorMessage {
-                            self?.showAlert(message: message)
-                        }
-                    }
-                    .store(in: &cancellables)
+//                viewModel.$errorMessage // as error from network , alart will be called and no network method
+//                    .sink { [weak self] errorMessage in
+//                        if let message = errorMessage {
+//                            self?.showAlert()
+//                        }
+//                    }
+//                    .store(in: &cancellables)
             }
         
         
@@ -133,18 +156,11 @@ class SearchViewController: UIViewController {
                 viewModel.resetPagination()
                 viewModel.fetchArticlesByParameters(resultAbout: selectedTopic, from: dateString)
             }
-
-            private func showAlert(message: String) {
-                let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                present(alert, animated: true, completion: nil)
-            }
         }
 
 
     extension SearchViewController : UISearchBarDelegate {
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            print(" searchText")
            searchTextSubject.send(searchText)
         }
     }
