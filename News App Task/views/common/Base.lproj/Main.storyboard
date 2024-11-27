@@ -213,7 +213,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleAspectFill" semanticContentAttribute="forceLeftToRight" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WqU-UJ-Vlm">
-                                        <rect key="frame" x="294.66666666666669" y="0.0" width="48.333333333333314" height="34.333333333333336"/>
+                                        <rect key="frame" x="287.66666666666669" y="7" width="48.333333333333314" height="34.333333333333336"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" red="0.94684082269668579" green="0.29600074887275696" blue="0.37087911367416382" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
@@ -236,11 +236,11 @@
                                     <constraint firstAttribute="trailing" secondItem="pKU-EX-e9b" secondAttribute="trailing" id="XQB-Vd-OwL"/>
                                     <constraint firstItem="O8q-Ej-tc4" firstAttribute="leading" secondItem="vQM-zn-ohN" secondAttribute="leading" id="hjp-Ak-e3R"/>
                                     <constraint firstItem="O8q-Ej-tc4" firstAttribute="trailing" secondItem="vQM-zn-ohN" secondAttribute="trailing" id="j2U-4X-Dkr"/>
-                                    <constraint firstItem="WqU-UJ-Vlm" firstAttribute="top" secondItem="f4H-o2-WDJ" secondAttribute="top" id="nkn-lP-k7g"/>
+                                    <constraint firstItem="WqU-UJ-Vlm" firstAttribute="top" secondItem="f4H-o2-WDJ" secondAttribute="top" constant="7" id="nkn-lP-k7g"/>
                                     <constraint firstAttribute="trailing" secondItem="vQM-zn-ohN" secondAttribute="trailing" constant="8" id="oeu-Zk-CAv"/>
                                     <constraint firstItem="los-rQ-kn8" firstAttribute="leading" secondItem="O8q-Ej-tc4" secondAttribute="leading" id="pKK-fw-ADC"/>
                                     <constraint firstItem="O8q-Ej-tc4" firstAttribute="top" secondItem="vQM-zn-ohN" secondAttribute="bottom" constant="7.6666666666666856" id="pSF-tr-GMm"/>
-                                    <constraint firstAttribute="trailing" secondItem="WqU-UJ-Vlm" secondAttribute="trailing" id="rUr-bw-yAc"/>
+                                    <constraint firstAttribute="trailing" secondItem="WqU-UJ-Vlm" secondAttribute="trailing" constant="7" id="rUr-bw-yAc"/>
                                     <constraint firstItem="pKU-EX-e9b" firstAttribute="leading" secondItem="f4H-o2-WDJ" secondAttribute="leading" id="vHQ-xR-DGM"/>
                                 </constraints>
                             </view>

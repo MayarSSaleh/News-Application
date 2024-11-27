@@ -111,6 +111,7 @@
 		7D94E43C2CF698F200522B1D /* lotie */ = {
 			isa = PBXGroup;
 			children = (
+				7D94E43A2CF698DC00522B1D /* Animation - 1732665559763.json */,
 				7DBAEA842CF61A77002A7DF0 /* splashAnimation.json */,
 				7D94E43D2CF6991100522B1D /* offline.json */,
 				7DBAEA7E2CF60F72002A7DF0 /* searchAnimation.json */,
@@ -295,7 +296,6 @@
 		7DDA981E2CD6CB6A00D92AEA /* details */ = {
 			isa = PBXGroup;
 			children = (
-				7D94E43A2CF698DC00522B1D /* Animation - 1732665559763.json */,
 				7DA3368C2CDADCFA00E10929 /* ArticleDetailsViewController.swift */,
 			);
 			path = details;
