@@ -74,7 +74,7 @@ class OtherTopicsViewController: NetworkBaseViewController {
                button.setTitleColor((index == 0) ? .white : .black, for: .normal)
                button.addTarget(self, action: #selector(categoryButtonTapped(_:)), for: .touchUpInside)
                    
-               if index == 0 { // Set the first button as selected
+               if index == 0 {
                    selectedButton = button
                }
                categoriesStack.addArrangedSubview(button)
@@ -98,7 +98,7 @@ class OtherTopicsViewController: NetworkBaseViewController {
         viewModel.$articles
             .sink { [weak self] _ in
                 self?.mycollection.reloadData()
-             //   self?.activityIndicator.stopAnimating()
+                self?.activityIndicator.stopAnimating()
             }
             .store(in: &cancellables)
         

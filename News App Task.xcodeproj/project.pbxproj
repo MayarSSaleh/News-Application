@@ -126,7 +126,10 @@
 				7D0813D02CD5A07600593887 /* ArticleCellCollectionViewCell.swift */,
 				7D0813D12CD5A07600593887 /* ArticleCellCollectionViewCell.xib */,
 				7DCC47D02CD56CD100E4E83F /* LaunchScreen.storyboard */,
+				7D94E4322CF688F300522B1D /* UIViewControllExtension.swift */,
 				7DBAEA802CF61647002A7DF0 /* SplashViewController.swift */,
+				7DB841092CF3AF05009BBC31 /* Animation.swift */,
+				7D94E4382CF6948300522B1D /* NetworkBase Class.swift */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -277,10 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				7D6597C52CD5D5D8004597D4 /* UtilityObjects.swift */,
-				7DB841092CF3AF05009BBC31 /* Animation.swift */,
 				7DBAEA862CF61DEC002A7DF0 /* NetworkMointoring.swift */,
-				7D94E4322CF688F300522B1D /* UIViewControllExtension.swift */,
-				7D94E4382CF6948300522B1D /* NetworkBase Class.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";

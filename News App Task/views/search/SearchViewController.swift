@@ -54,6 +54,8 @@ class SearchViewController: NetworkBaseViewController {
    }
   
         private func setUp(){
+            self.activityIndicator.stopAnimating()
+
             searchBar.backgroundImage = UIImage()
             searchBar.barTintColor = UIColor.clear
             datePicker.maximumDate = Date()
@@ -77,9 +79,6 @@ class SearchViewController: NetworkBaseViewController {
                 lottieAnimationView?.isHidden = true
                 view.addSubview(lottieAnimationView!)
             
-                   activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-                   view.addSubview(activityIndicator)
-
                    NSLayoutConstraint.activate([
                        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
@@ -139,7 +138,6 @@ class SearchViewController: NetworkBaseViewController {
                               self?.viewModel.fetchArticlesByParameters(resultAbout: searchText, from: self?.selectedDate)
                           } else {
                               self?.viewModel.resetPagination()
-                            //  self?.viewModel.fetchArticlesByParameters()
                           }
                       }
                   .store(in: &cancellables)
@@ -175,11 +173,6 @@ class SearchViewController: NetworkBaseViewController {
             func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellCollectionViewCell", for: indexPath) as! ArticleCellCollectionViewCell
                 let article = viewModel.articles[indexPath.item]
-                
-                
-                print("article\(article.title) ")
-                
-                
                cell.configure(article: article)
                 return cell
             }
@@ -193,14 +186,11 @@ class SearchViewController: NetworkBaseViewController {
                     
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let article = viewModel.articles[indexPath.item]
-            
             if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "ArticleDetailsViewController") as? ArticleDetailsViewController {
                 detailsVC.imageURL = article.urlToImage
                 detailsVC.titleText = article.title
                 detailsVC.descriptionText = article.description
                 detailsVC.authorNameText = article.author
-                
-                // Push the view controller onto the navigation stack
                 navigationController?.pushViewController(detailsVC, animated: true)
             }
         }
@@ -208,9 +198,7 @@ class SearchViewController: NetworkBaseViewController {
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let offsetY = scrollView.contentOffset.y //This value indicates how far the content has been scrolled vertically.
             let contentHeight = scrollView.contentSize.height //Represents the total height of the content inside the scroll view, including parts not currently visible.
-            
             let frameHeight = scrollView.frame.size.height //Represents the visible height of the scroll view
-            
             if offsetY > contentHeight - frameHeight * 2{ // Trigger when close to bottom
                 viewModel.loadMoreArticles(resultAbout: selectedTopic, from: selectedDate)
             }
