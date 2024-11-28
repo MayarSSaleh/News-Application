@@ -13,32 +13,27 @@ import Kingfisher
 class ArticleDetailsViewController: UIViewController {
 
         
-        var imageURL: String?
-        var titleText: String?
-        var descriptionText: String?
-        var authorNameText : String?
-        
-        private var isFavorite: Bool = false
-     
-        private var addRemovFavViewModel: AddRemoveFavouriteNewsViewModelProtocol = FavouriteNewsViewModel(localDataSource: LocalDataSource.shared)
-        private var allFavViewModel: AllFavoritesViewModelProtocol = AllFavoritesViewModel(localDataSource: LocalDataSource.shared)
+    var imageURL: String?
+    var titleText: String?
+    var descriptionText: String?
+    var authorNameText : String?
+    private var isFavorite: Bool = false
+    private var addRemovFavViewModel: AddRemoveFavouriteNewsViewModelProtocol = FavouriteNewsViewModel(localDataSource: LocalDataSource.shared)
+    private var allFavViewModel: AllFavoritesViewModelProtocol = AllFavoritesViewModel(localDataSource: LocalDataSource.shared)
 
         
 
     @IBOutlet weak var myView: UIView!
     @IBOutlet weak var imageView: UIImageView!
-    
-        @IBOutlet weak var titleLabel: UILabel!
-        @IBOutlet weak var authorName: UILabel!
-        @IBOutlet weak var descriptionLabel: UILabel!
-        @IBOutlet weak var favButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var authorName: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var favButton: UIButton!
           
         override func viewDidLoad() {
             super.viewDidLoad()
-            print("titleText\(titleText ?? "no data") ")
             setupUI()
             checkIfFavorite()
-
         }
         
         @IBAction func AddToFavourite(_ sender: Any) {
@@ -50,21 +45,17 @@ class ArticleDetailsViewController: UIViewController {
         }
         
         private func setupUI() {
-            favButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
             favButton.layer.cornerRadius = 20
             imageView.layer.cornerRadius = 20
             myView.layer.cornerRadius = 20
             imageView.layer.masksToBounds = true
             authorName.lineBreakMode = .byWordWrapping
-            authorName.backgroundColor = UIColor.systemGray5
             authorName.layer.cornerRadius = 10
             authorName.clipsToBounds = true
-            
-            
             titleLabel.text = titleText
             descriptionLabel.text = descriptionText ?? ""
             // to make space before the word
-            authorName.text = "\u{00A0}\u{00A0}\u{00A0}\(authorNameText ?? " unKnown")\u{00A0}\u{00A0}\u{00A0} "
+            authorName.text = "\u{00A0}\u{00A0}\u{00A0}\(authorNameText ?? " unKnown") "
             if let imageURL = imageURL, !imageURL.trimmingCharacters(in: .whitespaces).isEmpty {
                 let url = URL(string: imageURL)
                 imageView.kf.setImage(
@@ -82,11 +73,13 @@ class ArticleDetailsViewController: UIViewController {
                updateFavoriteButtonTitle()
            }
            
+    
         private func updateFavoriteButtonTitle() {
-               let buttonTitle = isFavorite ? "Remove from Favorites" : "Add to Favorites"
-               favButton.setTitle(buttonTitle, for: .normal)
-           }
-           
+        let iconName = isFavorite ? "square.and.arrow.down.fill" : "square.and.arrow.down"
+        let iconImage = UIImage(systemName: iconName) // Use SF Symbols
+        favButton.setImage(iconImage, for: .normal)
+    }
+
         
          func removeFromFav(){
             guard let title = titleText else {
@@ -95,7 +88,7 @@ class ArticleDetailsViewController: UIViewController {
             }
             let confirmationAlert = UIAlertController(
                 title: "Delete Confirmation",
-                message: "Are you sure you want to remove this article from your favorites?",
+                message: "Are you sure you want to remove it from saved articels?",
                 preferredStyle: .alert
             )
 
@@ -105,9 +98,10 @@ class ArticleDetailsViewController: UIViewController {
                 handler: { _ in
                     let removeStatus = self.addRemovFavViewModel.removeFromFav(title: title)
                     if removeStatus {
-                        self.dismiss(animated: true, completion: nil)
+                        self.isFavorite = false
+                        self.updateFavoriteButtonTitle()
                     } else {
-                        self.showAlert(message: "Failed to remove from favorites. Please try again.")
+                        self.showAlert(message: "Failed to remove it. Please try again.")
                     }
                 }
             ))
@@ -122,23 +116,14 @@ class ArticleDetailsViewController: UIViewController {
                 showAlert(message: "Sorry error in data loading .Please try again")
                 return
             }
-            print(" description\(description)")
             let addStatus = self.addRemovFavViewModel.addToFav(title: title, imageURL: imageURL ?? "", description: description, author: authorNameText ?? "unknown")
             if addStatus {
                 isFavorite = true
-                dismiss(animated: true) {
-                    let alert = UIAlertController(title: self.titleText ?? "Added", message: "added to favorites successfully", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
-                        self.addRemovFavViewModel.removeFromFav(title: title)
-                    }))
-                     alert.addAction(UIAlertAction(title: "Ok",style: .default,handler: nil))
-                    
-                    if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
-                        rootVC.present(alert, animated: true, completion: nil)
-                    }
-                }
+                showCheckMarkAnimation(mark: "square.and.arrow.down.fill")
+                updateFavoriteButtonTitle()
+
             } else {
-                showAlert(message: "Failed to add to favorites. Please try again.")
+                showAlert(message: "Failed to save it. Please try again.")
             }
         }
         
