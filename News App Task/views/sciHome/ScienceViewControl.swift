@@ -39,15 +39,23 @@ class ScienceViewControl: NetworkBaseViewController {
                        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
                    ])
+            
+            let numberOfCellsInARow: CGFloat = 2
+            let spacesBetweenCells: CGFloat = (numberOfCellsInARow - 1) * 16
+            let cellWidth = floor((mycollection.bounds.width - spacesBetweenCells) / numberOfCellsInARow)
+            let cellSize = CGSize(width: cellWidth, height: (mycollection.frame.height / 2.2) - 10)
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            layout.itemSize = cellSize
+            layout.minimumLineSpacing = 8
+            layout.minimumInteritemSpacing = 8.0
+            mycollection.setCollectionViewLayout(layout, animated: false)
         }
    
      override func handleNoNetwork() {
          if viewModel.articles.isEmpty {
-             print(" is empty ")
              playLottieAnimation(animationView: animationView)
          }else {
-             print(" is not empty ")
-
          }
          self.activityIndicator.stopAnimating()
          self.showAlert()
@@ -56,7 +64,6 @@ class ScienceViewControl: NetworkBaseViewController {
    override func handleNetworkAvailable() {
        animationView.stop()
        animationView.removeFromSuperview()
-       print(" handleNetworkAvailable")
     viewModel.fetchArticlesByCategory(category: "science")
     }
    
@@ -82,24 +89,33 @@ class ScienceViewControl: NetworkBaseViewController {
     }
 
     extension ScienceViewControl: UICollectionViewDataSource , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
-         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-                    return viewModel.articles.count
-                }
-
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return viewModel.articles.count
+        }
+        
+        
+        func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+         if indexPath.row == viewModel.articles.count - 1 {
+         viewModel.loadMoreArticles(resultAbout: "science")
+         }
+         }
+        /** the above method is more easily
+         func scrollViewDidScroll(_ scrollView: UIScrollView) {
+             let offsetY = scrollView.contentOffset.y
+             let contentHeight = scrollView.contentSize.height
+             let frameHeight = scrollView.frame.size.height
+             if offsetY > contentHeight - frameHeight * 2{
+                 viewModel.loadMoreArticles(resultAbout: "science")
+             }
+         }
+         */
          func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellCollectionViewCell", for: indexPath) as! ArticleCellCollectionViewCell
                     let article = viewModel.articles[indexPath.item]
                    cell.configure(article: article)
                     return cell
                 }
-                
-         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-                    let width = (collectionView.frame.width / 2) - 7
-                    let height = (collectionView.frame.height / 2.3) - 10
-                    return CGSize(width: width, height: height)
-                }
-        
-        
+
           func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
                     let article = viewModel.articles[indexPath.item]
                     if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "ArticleDetailsViewController") as? ArticleDetailsViewController {
@@ -110,14 +126,5 @@ class ScienceViewControl: NetworkBaseViewController {
                         navigationController?.pushViewController(detailsVC, animated: true)
                     }
                 }
-        
-            func scrollViewDidScroll(_ scrollView: UIScrollView) {
-                let offsetY = scrollView.contentOffset.y
-                let contentHeight = scrollView.contentSize.height
-                let frameHeight = scrollView.frame.size.height
-                if offsetY > contentHeight - frameHeight * 2{
-                    viewModel.loadMoreArticles(resultAbout: "science")
-                }
-            }
         }
 

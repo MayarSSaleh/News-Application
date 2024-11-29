@@ -83,8 +83,18 @@ class SearchViewController: NetworkBaseViewController {
                        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
                    ])
-        }
-
+  
+     let numberOfCellsInARow: CGFloat = 2
+     let spacesBetweenCells: CGFloat = (numberOfCellsInARow - 1) * 16
+     let cellWidth = floor((collectionView.bounds.width - spacesBetweenCells) / numberOfCellsInARow)
+     let cellSize = CGSize(width: cellWidth, height: (collectionView.frame.height / 2.2) - 10)
+     let layout = UICollectionViewFlowLayout()
+     layout.scrollDirection = .vertical
+     layout.itemSize = cellSize
+     layout.minimumLineSpacing = 8
+     layout.minimumInteritemSpacing = 8.0
+        collectionView.setCollectionViewLayout(layout, animated: false)
+     }
 
         private func bindViewModel() {
                 viewModel.$articles
@@ -177,11 +187,7 @@ class SearchViewController: NetworkBaseViewController {
                 return cell
             }
             
-            func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-                let width = (collectionView.frame.width / 2) - 10
-                let height = (collectionView.frame.height / 2) - 10
-                return CGSize(width: width, height: height)
-            }
+           
 
                     
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
